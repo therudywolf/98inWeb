@@ -1,604 +1,103 @@
-# 🐺 Forest OS 98 - Wolf Edition
-
-<div align="center">
+# Forest OS 98
 
 ![Version](https://img.shields.io/badge/version-2.0-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
+![License](https://img.shields.io/badge/license-AGPL--3.0--only-green.svg)
 ![Status](https://img.shields.io/badge/status-active-success.svg)
 
-**Ретро-киберпанк операционная система в браузере с AI ассистентом**
+Forest OS 98 is a retro browser desktop experiment inspired by classic Windows 98 interfaces. It is a single-page web application with windows, games, utilities, a virtual file manager, and an optional OpenAI-compatible chat assistant.
 
-[Особенности](#-особенности) • [Установка](#-установка) • [Документация](#-документация) • [FAQ](#-faq) • [Roadmap](#-roadmap)
+## Features
 
-</div>
+- Desktop shell with draggable windows, taskbar, start menu, quick launch, system tray, context menus, and a Run dialog.
+- Games: FreeCell, Tetris, Minesweeper, Pinball, Snake, Hearts, and Solitaire-style card experiences.
+- Utilities: Paint, calculator, terminal, file manager, code editor, crypto toolkit, regex tester, network tools, system monitor, and control panel.
+- Optional Wolf GPT chat window using a locally supplied OpenAI-compatible API endpoint.
+- Browser-local persistence through `localStorage` and cookies.
 
----
+## Requirements
 
-## 📋 Содержание
+- A modern browser with ES6 support.
+- A local static file server is recommended. Directly opening `forestos.html` can work for most features, but a server gives browser behavior closer to deployment.
 
-- [Особенности](#-особенности)
-- [Установка](#-установка)
-- [Быстрый старт](#-быстрый-старт)
-- [Документация](#-документация)
-  - [Приложения](#приложения)
-  - [Горячие клавиши](#горячие-клавиши)
-  - [Системные функции](#системные-функции)
-- [FAQ](#-faq)
-- [Roadmap](#-roadmap)
-- [Разработка](#-разработка)
-- [Лицензия](#-лицензия)
+No build step or package manager is required for the current project layout.
 
----
-
-## ✨ Особенности
-
-### 🎮 Игры
-- **FreeCell** - классическая карточная игра FreeCell с полной логикой
-- **Tetris** - классический тетрис с уровнями и счётом
-- **Pinball Space Cadet** - симуляция пинбола с физикой
-- **Minesweeper** - сапёр с тремя уровнями сложности (Начальный, Средний, Эксперт)
-- **Solitaire** - карточная игра
-
-### 🛠️ Системные утилиты
-- **Панель управления** - настройки дисплея, звука, мыши, клавиатуры, даты/времени, региональные настройки
-- **Диалог "Выполнить"** (Win+R) - быстрый запуск приложений
-- **Контекстные меню** - для рабочего стола, файлов и иконок
-- **File Manager** - файловый менеджер с переименованием, созданием папок, удалением, копированием, поиском
-
-### 🎨 Мультимедиа
-- **Paint** - графический редактор с выбором цвета, размера кисти и сохранением
-- **Forest Player** - музыкальный плеер с визуализацией и ретро-мелодиями
-- **Image Viewer** - просмотрщик изображений (в разработке)
-
-### 💻 Приложения
-- **Wolf GPT (Nocturne)** - AI ассистент с историей чата, экспортом и очисткой
-- **Forest Explorer** - браузер с историей, закладками и навигацией
-- **WolfSH Terminal** - терминал с поддержкой команд и файловой системы
-- **Code Editor** - редактор кода с подсветкой синтаксиса
-- **Калькулятор** - научный калькулятор с тригонометрией, логарифмами и факториалом
-- **Crypto Toolkit** - инструменты для шифрования (Base64, ROT13, Caesar, Reverse) и хеширования (SHA-1, SHA-256)
-- **Network Tools** - сетевые утилиты (симуляция): порт-сканер, ping, WHOIS
-- **System Monitor** - мониторинг CPU, памяти и процессов
-- **Regex Tester** - тестирование регулярных выражений
-- **Mesh Network** - симуляция mesh сети Meshtastic
-
-### 🎯 Системные функции
-- Сохранение позиций окон
-- Обои рабочего стола (загрузка изображений)
-- Горячие клавиши (Alt+Tab, Ctrl+W, Escape, Win+R)
-- Уведомления (в разработке)
-- Корзина (в разработке)
-
----
-
-## 🚀 Установка
-
-### Требования
-
-- Современный браузер с поддержкой ES6+ (Chrome/Edge, Firefox, Safari, Opera)
-- HTTP сервер для локальной разработки (опционально)
-
-### Шаг 1: Клонирование репозитория
+## Quick Start
 
 ```bash
 git clone <repository-url>
 cd 98inWeb
+python3 -m http.server 8000
 ```
 
-### Шаг 2: Настройка конфигурации
+Open `http://localhost:8000/forestos.html`.
 
-1. Скопируйте файл `config.example.js` в `config.js`:
-   ```bash
-   cp config.example.js config.js
-   ```
-
-2. Откройте `config.js` и укажите ваш API URL и модель:
-   ```javascript
-   const API_BASE_URL = 'https://your-api-url-here.com';
-   const MODEL_NAME = 'qwen/qwen3-vl-4b';
-   ```
-
-   **⚠️ Важно:** Файл `config.js` находится в `.gitignore` и не будет закоммичен в репозиторий. Это защищает ваши API ключи.
-
-### Шаг 3: Запуск
-
-#### Вариант 1: Прямое открытие
-Просто откройте `forestos.html` в браузере.
-
-#### Вариант 2: Локальный сервер (рекомендуется)
+### Docker (optional)
 
 ```bash
-# Python 3
-python -m http.server 8000
-
-# Node.js (http-server)
-npx http-server
-
-# PHP
-php -S localhost:8000
+docker build -t forestos98 .
+docker run -p 8080:80 forestos98
 ```
 
-Затем откройте `http://localhost:8000/forestos.html` в браузере.
+Open `http://localhost:8080/forestos.html`. The Dockerfile uses nginx:alpine with security headers pre-configured.
 
----
+## Optional AI Configuration
 
-## 🎯 Быстрый старт
+The chat assistant is disabled until an API endpoint is configured locally.
 
-1. **Вход в систему**
-   - При первом запуске появится экран входа
-   - Введите ваш никнейм (2-20 символов, только буквы, цифры, дефис и подчеркивание)
-   - Нажмите "ВОЙТИ"
-
-2. **Загрузка системы**
-   - Дождитесь завершения загрузки системы
-   - Появится рабочий стол с иконками приложений
-
-3. **Запуск приложений**
-   - Двойной клик по иконке на рабочем столе
-   - Или через меню "Пуск" → выбор приложения
-   - Или через диалог "Выполнить" (Win+R)
-
----
-
-## 📚 Документация
-
-### Приложения
-
-#### 🐺 Wolf GPT (Nocturne)
-AI ассистент с поддержкой чата. История сохраняется в cookies на 90 дней.
-
-**Функции:**
-- Чат с AI ассистентом
-- Экспорт истории чата
-- Очистка истории
-- Сохранение контекста между сессиями
-
-#### 🎨 Paint
-Графический редактор для создания простых рисунков.
-
-**Инструменты:**
-- Карандаш
-- Ластик
-- Выбор цвета
-- Размер кисти (1-20px)
-- Сохранение изображения
-
-#### 💣 Minesweeper
-Классический сапёр с тремя уровнями сложности.
-
-**Уровни:**
-- **Начальный**: 9×9, 10 мин
-- **Средний**: 16×16, 40 мин
-- **Эксперт**: 16×30, 99 мин
-
-**Управление:**
-- Левый клик - открыть ячейку
-- Правый клик - установить флаг
-
-#### 🎮 FreeCell
-Карточная игра FreeCell с полной логикой.
-
-**Правила:**
-- Перемещайте карты в порядке убывания, чередуя цвета
-- Используйте свободные ячейки для временного хранения
-- Соберите все карты по мастям в фундаментах
-
-#### 🧩 Tetris
-Классический тетрис с уровнями и счётом.
-
-**Управление:**
-- ← → - движение
-- ↓ - ускорение падения
-- ↑ - поворот фигуры
-- Пробел - пауза
-
-#### 🎱 Pinball Space Cadet
-Симуляция пинбола с физикой.
-
-**Управление:**
-- Пробел - запуск шара
-- ← → - управление флипперами
-
-#### 🧮 Калькулятор
-Научный калькулятор с расширенными функциями.
-
-**Функции:**
-- Базовые операции (+, -, ×, ÷)
-- Тригонометрия (sin, cos, tan)
-- Логарифмы (log, ln)
-- Степени (x², x^y)
-- Факториал (n!)
-- Константы (π, e)
-
-#### 🌐 Forest Explorer
-Встроенный браузер с историей и закладками.
-
-**Функции:**
-- Навигация (назад/вперёд)
-- Обновление страницы
-- История посещений (до 100 записей)
-- Закладки (сохранение в localStorage)
-- Автодополнение URL (добавляет https://)
-
-#### 💻 WolfSH Terminal
-Терминал с поддержкой команд и файловой системы.
-
-**Команды:**
-- `help` - список команд
-- `clear` - очистка экрана
-- `ls` - список файлов
-- `cd` - смена директории
-- `cat` - просмотр файла
-- `echo` - вывод текста
-- `date` - текущая дата
-- `whoami` - текущий пользователь
-
-#### 📁 File Manager
-Файловый менеджер с полным функционалом.
-
-**Функции:**
-- Навигация по папкам
-- Создание папок
-- Переименование файлов/папок
-- Удаление файлов/папок
-- Копирование/вырезание/вставка
-- Поиск файлов
-- Просмотр свойств
-- Контекстное меню
-
-#### 🔐 Crypto Toolkit
-Инструменты для шифрования и хеширования.
-
-**Инструменты:**
-- Base64 (кодирование/декодирование)
-- ROT13 (шифрование)
-- Caesar Cipher (шифрование со сдвигом)
-- Reverse (обращение строки)
-- SHA-1 (хеширование)
-- SHA-256 (хеширование)
-- Генератор паролей
-
-### Горячие клавиши
-
-| Клавиша | Действие |
-|---------|----------|
-| `Alt + Tab` | Переключение между открытыми окнами |
-| `Ctrl + W` | Закрыть активное окно |
-| `Escape` | Закрыть активное окно или меню "Пуск" |
-| `Win + R` | Открыть диалог "Выполнить" |
-
-### Системные функции
-
-#### Панель управления
-Доступна через меню "Пуск" → Панель управления или через диалог "Выполнить" (`control` или `controlpanel`).
-
-**Вкладки:**
-- **Дисплей**: фон рабочего стола, разрешение, цветовая схема
-- **Звук**: громкость системы, системные звуки, схема звуков
-- **Мышь**: скорость двойного клика, скорость указателя, след указателя
-- **Клавиатура**: задержка повтора, скорость повтора, залипающие клавиши
-- **Дата/Время**: установка даты и времени, часовой пояс
-- **Регион**: язык, формат даты и времени
-
-#### Диалог "Выполнить"
-Быстрый запуск приложений по имени.
-
-**Примеры команд:**
-- `wolfgpt` - открыть Wolf GPT
-- `paint` - открыть Paint
-- `browser` - открыть браузер
-- `terminal` - открыть терминал
-- `calculator` - открыть калькулятор
-- `controlpanel` - открыть панель управления
-
-#### Контекстные меню
-- **Рабочий стол**: правый клик → вид, упорядочить значки, свойства
-- **Иконки**: правый клик → открыть, создать ярлык, удалить, переименовать, свойства
-- **Файлы**: правый клик → открыть, вырезать, копировать, вставить, удалить, переименовать, свойства
-
----
-
-## ❓ FAQ
-
-### Как сохранить настройки?
-Все настройки автоматически сохраняются в `localStorage` браузера. Они будут восстановлены при следующем открытии.
-
-### Как экспортировать историю чата Wolf GPT?
-В окне Wolf GPT нажмите кнопку "Экспорт" - история будет скопирована в буфер обмена.
-
-### Можно ли использовать без API?
-Да, но функционал Wolf GPT будет недоступен. Все остальные приложения работают без API.
-
-### Как добавить свои обои?
-В Панели управления → Дисплей → "Выбрать обои" → выберите изображение с вашего компьютера.
-
-### Поддерживается ли автосохранение?
-Да, позиции окон, настройки и история чата сохраняются автоматически.
-
-### Можно ли использовать на мобильных устройствах?
-Технически возможно, но интерфейс оптимизирован для десктопов. Мобильная версия в планах.
-
-### Как сбросить все настройки?
-Очистите `localStorage` и `cookies` в настройках браузера для этого сайта.
-
----
-
-## 🗺️ Roadmap
-
-### ✅ Реализовано (v2.0)
-- [x] Панель управления
-- [x] Контекстные меню
-- [x] Диалог "Выполнить"
-- [x] Улучшенный File Manager
-- [x] FreeCell
-- [x] Tetris
-- [x] Pinball
-- [x] Калькулятор
-- [x] Уровни сложности Minesweeper
-- [x] Улучшенный Browser (история, закладки)
-
-### 🔄 В разработке
-- [ ] Полная версия Klondike Solitaire
-- [ ] Улучшения Paint (фигуры, текст, заливка)
-- [ ] Улучшения Terminal (больше команд, автодополнение)
-- [ ] Улучшения Code Editor (подсветка синтаксиса, поиск/замена)
-- [ ] Улучшения Notepad
-- [ ] Image Viewer
-- [ ] Calendar
-- [ ] Корзина
-- [ ] Система уведомлений
-
-### 📋 Планируется
-- [ ] Hearts (карточная игра)
-- [ ] Snake
-- [ ] Pac-Man
-- [ ] Email Client (симуляция)
-- [ ] FTP Client (симуляция)
-- [ ] IRC Client (симуляция)
-- [ ] Экранная заставка
-- [ ] Виджеты рабочего стола
-- [ ] Поддержка тем оформления
-- [ ] Мобильная версия
-
----
-
-## 🛠️ Разработка
-
-### Архитектура системы
-
-Forest OS 98 построена как одностраничное веб-приложение (SPA) с монолитной структурой. Все компоненты находятся в одном HTML-файле для упрощения развертывания.
-
-#### Основные компоненты:
-
-1. **HTML структура** - Определяет все окна приложений, меню, диалоги
-2. **CSS стили** - Ретро Windows 98 стилизация с использованием классических цветов и эффектов
-3. **JavaScript логика** - Организована по функциональным секциям:
-   - Конфигурация и константы
-   - Управление пользователями и аутентификация
-   - Управление окнами и UI
-   - Wolf GPT (AI ассистент)
-   - Игры (Solitaire, FreeCell, Minesweeper, Tetris, Pinball, Snake, Hearts)
-   - Приложения (Paint, Browser, Terminal, File Manager, Calculator, и т.д.)
-   - Системные функции (Панель управления, Заставка, Свойства)
-   - Утилиты (звуки, уведомления, localStorage)
-
-#### Хранение данных:
-
-- **localStorage** - Настройки пользователя, позиции окон, история, закладки
-- **Cookies** - Имя пользователя, история чата Wolf GPT (90 дней)
-- **Виртуальная файловая система** - В памяти JavaScript объект для Terminal и File Manager
-
-#### API интеграция:
-
-- **Wolf GPT API** - Внешний API для AI ассистента (настраивается в `config.js`)
-- Использует стандартный OpenAI-совместимый формат запросов
-- Поддержка retry логики для обработки ошибок сети
-
-### Структура проекта
-
+```bash
+cp config.example.js config.js
 ```
+
+Edit `config.js`:
+
+```javascript
+window.FOREST_CONFIG = {
+    API_BASE_URL: 'https://your-openai-compatible-endpoint.example',
+    MODEL_NAME: 'qwen/qwen3-vl-4b'
+};
+```
+
+`config.js` is ignored by git and must not be committed. Do not put API keys or private endpoints in tracked files.
+
+## Project Structure
+
+```text
 98inWeb/
-├── forestos.html          # Основной файл приложения (монолитный)
-├── config.js              # Конфигурация API (не коммитится, в .gitignore)
-├── config.example.js      # Шаблон конфигурации
-├── .gitignore            # Игнорируемые файлы (config.js)
-└── README.md             # Документация
+├── forestos.html       # Main single-file application
+├── config.example.js   # Safe local configuration template
+├── Dockerfile          # Optional nginx-based container
+├── .dockerignore       # Docker build exclusions
+├── .gitattributes      # Normalizes text files to LF
+├── .gitignore          # Keeps local/private files out of git
+├── CONTRIBUTING.md     # Contribution rules
+├── SECURITY.md         # Security reporting and secret-handling notes
+├── LICENSE             # GNU AGPL v3 text
+└── README.md
 ```
 
-### Добавление нового приложения
+## Development
 
-1. **Создайте HTML разметку окна** в `forestos.html`:
-   ```html
-   <div class="window" id="myAppWindow" style="left: 200px; top: 100px; width: 500px; height: 400px;">
-       <!-- Содержимое окна -->
-   </div>
-   ```
+The app is intentionally monolithic: HTML, CSS, and JavaScript live in `forestos.html`. Keep changes small and easy to inspect.
 
-2. **Добавьте иконку на рабочий стол**:
-   ```html
-   <div class="desktop-icon" data-app="myapp">
-       <img src="..." alt="My App">
-       <span>My App</span>
-   </div>
-   ```
+Recommended local checks before committing:
 
-3. **Добавьте в меню "Пуск"**:
-   ```html
-   <div class="start-menu-item" data-app="myapp">
-       <img src="..." alt="">
-       My App
-   </div>
-   ```
-
-4. **Добавьте обработку в `openWindow()`**:
-   ```javascript
-   case 'myAppWindow':
-       // Инициализация приложения
-       break;
-   ```
-
-5. **Добавьте в карту приложений** (для диалога "Выполнить"):
-   ```javascript
-   const appMap = {
-       'myapp': 'myAppWindow',
-       // ...
-   };
-   ```
-
-### Технологии
-
-- **HTML5** - структура и семантика
-- **CSS3** - стилизация (ретро Windows 98 стиль с градиентами, тенями, эффектами)
-- **JavaScript (ES6+)** - логика приложения, модульная организация
-- **Canvas API** - графика для игр и Paint (Tetris, Pinball, Minesweeper, Snake)
-- **Web Audio API** - системные звуки и музыкальный плеер с визуализацией
-- **LocalStorage API** - персистентное хранение настроек, позиций окон, истории
-- **Cookies API** - хранение имени пользователя и истории чата
-- **Fetch API** - асинхронные запросы к AI API с обработкой ошибок
-
-### API для разработчиков
-
-#### Основные функции управления окнами:
-
-```javascript
-// Открыть окно
-openWindow('wolfgptWindow');
-
-// Закрыть окно
-closeWindow('wolfgptWindow');
-
-// Минимизировать окно
-minimizeWindow('wolfgptWindow');
-
-// Максимизировать окно
-maximizeWindow('wolfgptWindow');
+```bash
+git status --short
+rg -n -S '(API_KEY|api[_-]?key|token|secret|password|passwd|Authorization|Bearer|github_pat|ghp_|AWSAccessKeyId|X-Amz|amazonaws|kaspersky|/mnt/c/Users|C:/Users|PRIVATE KEY)' .
+python3 -m http.server 8000
 ```
 
-#### Работа с localStorage:
+Then open the app in a browser and check the console for runtime errors.
 
-```javascript
-// Сохранение данных
-localStorage.setItem('forest_key', JSON.stringify(data));
+## FOSS Notes
 
-// Загрузка данных
-const data = JSON.parse(localStorage.getItem('forest_key') || 'null');
-```
+- License: GNU Affero General Public License v3.0 only (`AGPL-3.0-only`).
+- Contributions should preserve the public, self-contained nature of the project.
+- Local configuration, private API endpoints, generated logs, editor folders, and OS metadata must stay untracked.
+- If you distribute a modified network-accessible version, AGPL source-sharing obligations apply.
 
-#### Добавление нового приложения:
+## License
 
-1. Создайте HTML разметку окна в `forestos.html`
-2. Добавьте иконку на рабочий стол
-3. Добавьте пункт в меню "Пуск"
-4. Добавьте обработку в `openWindow()` switch statement
-5. Добавьте команду в `appMap` для Run Dialog
+Copyright (C) 2026 Forest OS 98 contributors.
 
-### Troubleshooting
-
-#### Проблема: Wolf GPT не отвечает
-
-**Решение:**
-1. Проверьте настройки в `config.js` - правильный ли API URL и модель
-2. Проверьте консоль браузера (F12) на наличие ошибок сети
-3. Убедитесь, что API поддерживает формат OpenAI-compatible запросов
-4. Проверьте CORS настройки на стороне API
-
-#### Проблема: Настройки не сохраняются
-
-**Решение:**
-1. Проверьте, включены ли cookies и localStorage в браузере
-2. Очистите кэш браузера и попробуйте снова
-3. Проверьте консоль на ошибки JavaScript
-
-#### Проблема: Игры работают медленно
-
-**Решение:**
-1. Закройте другие вкладки браузера для освобождения ресурсов
-2. Обновите страницу (F5)
-3. Проверьте производительность в DevTools (F12 → Performance)
-
-#### Проблема: Окна не открываются
-
-**Решение:**
-1. Проверьте консоль на ошибки JavaScript
-2. Убедитесь, что элемент с нужным ID существует в HTML
-3. Проверьте, что функция `openWindow()` вызывается правильно
-
-#### Проблема: Звуки не воспроизводятся
-
-**Решение:**
-1. Проверьте настройки звука в Панели управления
-2. Убедитесь, что браузер не блокирует автовоспроизведение
-3. Проверьте поддержку Web Audio API в браузере
-
-### Браузерная совместимость
-
-| Браузер | Версия | Статус |
-|---------|--------|--------|
-| Chrome/Edge | 90+ | ✅ Полная поддержка |
-| Firefox | 88+ | ✅ Полная поддержка |
-| Safari | 14+ | ✅ Полная поддержка |
-| Opera | 76+ | ✅ Полная поддержка |
-
----
-
-## 🔒 Безопасность
-
-- **Никогда не коммитьте `config.js`** - он содержит чувствительные данные
-- Используйте `config.example.js` как шаблон для других разработчиков
-- API ключи должны храниться только локально
-- Все данные хранятся локально в браузере (localStorage, cookies)
-
----
-
-## 📄 Лицензия
-
-Проект создан RudyWolf (rudywolf.ru) для демонстрационных целей.
-
-## 📝 Changelog
-
-### Version 2.0 (Текущая)
-- ✅ Добавлены структурные комментарии в код
-- ✅ Добавлены JSDoc комментарии для основных функций
-- ✅ Улучшена документация в README
-- ✅ Исправлены ошибки линтера
-- ✅ Оптимизирована производительность (дебаунсинг, кэширование)
-- ✅ Добавлены новые игры: Snake, Hearts
-- ✅ Добавлены приложения: Word, Excel, Calendar, Image Viewer
-- ✅ Расширено меню "Пуск" с подменю и поиском
-- ✅ Добавлена система справки
-- ✅ Добавлены диалоги свойств файлов и системы
-- ✅ Улучшена работа с файлами (создание папок, ярлыков)
-- ✅ Добавлена экранная заставка
-- ✅ Добавлены Quick Launch и System Tray
-
-### Version 1.0
-- 🎉 Первый релиз
-- Базовые приложения и игры
-- Интеграция с Wolf GPT
-- Панель управления
-- Файловый менеджер
-
----
-
-## 👤 Автор
-
-**RudyWolf**
-- Сайт: [rudywolf.ru](https://rudywolf.ru)
-- AI ассистент: Nocturne (встроен в приложение)
-
----
-
-## 🙏 Благодарности
-
-- Вдохновение: Windows 98 и ретро-киберпанк эстетика
-- Сообщество разработчиков за идеи и обратную связь
-
----
-
-<div align="center">
-
-**Сделано с ❤️ и 🐺 для кибер-волчьего сообщества**
-
-[⬆ Наверх](#-forest-os-98---wolf-edition)
-
-</div>
+This project is licensed under the GNU Affero General Public License v3.0 only. See [LICENSE](LICENSE).
