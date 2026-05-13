@@ -1,10 +1,25 @@
-# Forest OS 98
+# 🐺 Forest OS 98
+
+> `D34D1N$1D3` :: BMW • Racing • Dead inside wolf :: retro desktop experiment
+
+My resources:
+- [Gravatar](https://gravatar.com/therudywolf)
+- [OneToThree](https://onetothree.ru)
+- [Forest blog](https://t.me/theforestserver)
+- [X](https://x.com/therudywolf)
+- [GitHub](https://github.com/therudywolf)
+- [Twitch](https://twitch.tv/therudywolf)
+- [Reddit](https://reddit.com/user/Most-Watercress-6718)
+- [Telegram](https://t.me/rudy_wolf)
+- [YouTube](https://youtube.com/channel/UCXHkoSlaY5QaNmN_l4t0djQ)
 
 ![Version](https://img.shields.io/badge/version-2.0-blue.svg)
 ![License](https://img.shields.io/badge/license-AGPL--3.0--only-green.svg)
 ![Status](https://img.shields.io/badge/status-active-success.svg)
 
 Forest OS 98 is a retro browser desktop experiment inspired by classic Windows 98 interfaces. It is a single-page web application with windows, games, utilities, a virtual file manager, and an optional OpenAI-compatible chat assistant.
+
+AGPL v3 Copyleft applies to reuse, modification, and network deployment of derived versions.
 
 ## Features
 
