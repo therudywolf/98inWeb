@@ -3131,7 +3131,7 @@ Visit example.org for more info!</textarea>
             <div style="padding: 16px;">
                 <h3 style="margin-bottom: 16px;">🐺 Forest OS 98</h3>
                 <p style="margin-bottom: 8px;"><strong>Пользователь:</strong> <span id="currentUsername"></span></p>
-                <p style="margin-bottom: 8px;"><strong>Версия:</strong> Forest OS 98 Community Edition v1.0</p>
+                <p style="margin-bottom: 8px;"><strong>Версия:</strong> Forest OS 98 Community Edition v2.0</p>
                 <p style="margin-bottom: 8px;"><strong>Владелец:</strong> Forest OS Community</p>
                 <p style="margin-bottom: 8px;"><strong>Сайт:</strong> example.org</p>
                 <hr style="margin: 16px 0;">
@@ -6680,14 +6680,11 @@ Visit example.org for more info!</textarea>
         const bufferLength = analyser.frequencyBinCount;
         const dataArray = new Uint8Array(bufferLength);
         
-        let currentOscillator = null;
-        let currentGain = null;
         let isPlaying = false;
         let currentTrackIndex = 0;
         let visualizerInterval = null;
         let progressInterval = null;
         let trackStartTime = 0;
-        let trackDuration = 40; // seconds per track
         let userIP = 'Not fetched';
         let userSystem = 'Loading...';
 
@@ -7512,7 +7509,7 @@ Visit example.org for more info!</textarea>
                     break;
                     
                 case 'uname':
-                    terminalPrint('Forest OS 98 Community Edition v1.0 (x86_64)');
+                    terminalPrint('Forest OS 98 Community Edition v2.0 (x86_64)');
                     break;
                     
                 case 'ps':
