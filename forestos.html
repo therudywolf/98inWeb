@@ -901,6 +901,174 @@
             background: #808080;
             margin: 2px 0;
         }
+
+        /* ===== Forest OS 98 Enhancements ===== */
+
+        /* Authentic Win98 scrollbars */
+        ::-webkit-scrollbar { width: 16px; height: 16px; }
+        ::-webkit-scrollbar-track { background: #dfdfdf; }
+        ::-webkit-scrollbar-thumb {
+            background: #c0c0c0;
+            border: 1px solid #fff;
+            box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #808080;
+        }
+        ::-webkit-scrollbar-button {
+            background: #c0c0c0;
+            border: 1px outset #dfdfdf;
+            display: block;
+            height: 16px;
+        }
+        ::-webkit-scrollbar-corner { background: #c0c0c0; }
+
+        /* Window open animation */
+        @keyframes windowOpen {
+            from { opacity: 0.4; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .window.active:not(.maximized) { animation: windowOpen 0.14s ease-out; }
+        .window.minimized { display: none !important; }
+
+        /* Taskbar active item highlight */
+        .taskbar-item.minimized { font-style: italic; opacity: 0.8; }
+
+        /* Custom Win98 tooltip */
+        #osTooltip {
+            position: fixed;
+            background: #ffffe1;
+            border: 1px solid #000;
+            padding: 2px 6px;
+            font-size: 11px;
+            color: #000;
+            pointer-events: none;
+            z-index: 200000;
+            display: none;
+            box-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+        }
+
+        /* Shutdown "safe to turn off" screen */
+        .shutdown-screen {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000000;
+            text-align: center;
+        }
+        .shutdown-screen.active { display: flex; }
+        .shutdown-screen .safe-text {
+            color: #ffb000;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 0 0 12px rgba(255,176,0,0.6);
+            animation: safePulse 2s infinite;
+        }
+        @keyframes safePulse { 0%,100% { opacity: 1; } 50% { opacity: 0.55; } }
+
+        /* Blue Screen of Death */
+        .bsod {
+            position: fixed;
+            inset: 0;
+            background: #0000aa;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            padding: 60px 80px;
+            line-height: 1.7;
+            display: none;
+            z-index: 1000001;
+            cursor: none;
+        }
+        .bsod.active { display: block; }
+        .bsod .bsod-title {
+            background: #c0c0c0;
+            color: #0000aa;
+            display: inline-block;
+            padding: 0 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        /* CRT overlay effect */
+        #crtOverlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 150000;
+            display: none;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(0,0,0,0) 0px,
+                rgba(0,0,0,0) 2px,
+                rgba(0,0,0,0.18) 3px,
+                rgba(0,0,0,0) 4px
+            );
+        }
+        #crtOverlay::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.35) 100%);
+            animation: crtFlicker 0.15s infinite;
+        }
+        body.crt-on #crtOverlay { display: block; }
+        @keyframes crtFlicker { 0% { opacity: 0.92; } 50% { opacity: 1; } 100% { opacity: 0.95; } }
+
+        /* Tray popups (volume, calendar) */
+        .tray-popup {
+            position: fixed;
+            background: #c0c0c0;
+            border: 2px outset #dfdfdf;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+            z-index: 90000;
+            display: none;
+            padding: 10px;
+        }
+        .tray-popup.active { display: block; }
+
+        /* Task Manager */
+        .tm-tab {
+            padding: 4px 14px;
+            font-size: 11px;
+            border: 1px solid #808080;
+            border-bottom: none;
+            background: #c0c0c0;
+            cursor: pointer;
+            margin-right: 2px;
+        }
+        .tm-tab.active { background: #dfdfdf; font-weight: bold; }
+        .tm-row { padding: 3px 8px; font-size: 11px; cursor: pointer; display: flex; justify-content: space-between; }
+        .tm-row:hover { background: #000080; color: #fff; }
+        .tm-row.selected { background: #000080; color: #fff; }
+
+        /* Character Map grid */
+        .charmap-grid { display: grid; grid-template-columns: repeat(20, 1fr); gap: 1px; }
+        .charmap-cell {
+            border: 1px solid #c0c0c0;
+            text-align: center;
+            padding: 4px 0;
+            cursor: pointer;
+            font-size: 14px;
+            background: #fff;
+        }
+        .charmap-cell:hover { background: #000080; color: #fff; }
+
+        /* Regedit tree */
+        .reg-key { padding: 2px 4px; cursor: pointer; font-size: 11px; white-space: nowrap; }
+        .reg-key:hover { background: #000080; color: #fff; }
+        .reg-key.selected { background: #000080; color: #fff; }
+        .reg-value-row { display: flex; font-size: 11px; padding: 2px 4px; border-bottom: 1px solid #eee; cursor: pointer; }
+        .reg-value-row:hover { background: #e0e0ff; }
+
+        /* Defrag grid */
+        .defrag-grid { display: grid; grid-template-columns: repeat(40, 1fr); gap: 1px; background: #fff; border: 2px inset #dfdfdf; padding: 4px; }
+        .defrag-block { width: 100%; padding-bottom: 100%; }
+
+        /* Drive properties pie */
+        .drive-pie { width: 120px; height: 120px; border-radius: 50%; }
     </style>
 </head>
 <body>
@@ -1025,10 +1193,98 @@
             <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23004d00' width='32' height='32'/%3E%3Ccircle fill='%2300ff41' cx='16' cy='16' r='3'/%3E%3Ccircle fill='none' stroke='%2300ff41' stroke-width='2' cx='16' cy='16' r='8'/%3E%3Ccircle fill='none' stroke='%2300ff41' stroke-width='1' cx='16' cy='16' r='12'/%3E%3C/svg%3E" alt="Meshtastic">
             <span>Mesh Network</span>
         </div>
+        <div class="desktop-icon" style="left: 435px; top: 10px;" data-app="taskmgr" draggable="true">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Crect fill='%23000080' x='5' y='5' width='22' height='5'/%3E%3Crect fill='%23008000' x='5' y='13' width='9' height='14'/%3E%3Crect fill='%23008000' x='17' y='18' width='10' height='9'/%3E%3C/svg%3E" alt="Task Manager">
+            <span>Диспетчер задач</span>
+        </div>
+        <div class="desktop-icon" style="left: 435px; top: 100px;" data-app="charmap" draggable="true">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='white' width='32' height='32'/%3E%3Crect fill='none' stroke='%23808080' x='3' y='3' width='26' height='26'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle'%3E%26%23937;%3C/text%3E%3C/svg%3E" alt="Character Map">
+            <span>Таблица символов</span>
+        </div>
+        <div class="desktop-icon" style="left: 435px; top: 190px;" data-app="regedit" draggable="true">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Crect fill='white' x='4' y='5' width='10' height='22'/%3E%3Crect fill='%23000080' x='16' y='7' width='12' height='3'/%3E%3Crect fill='%23000080' x='16' y='15' width='12' height='3'/%3E%3Crect fill='%23000080' x='16' y='23' width='12' height='3'/%3E%3C/svg%3E" alt="Regedit">
+            <span>Regedit</span>
+        </div>
+        <div class="desktop-icon" style="left: 435px; top: 280px;" data-app="soundrec" draggable="true">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Ccircle fill='%23ff0000' cx='16' cy='14' r='6'/%3E%3Crect fill='%23000' x='14' y='20' width='4' height='6'/%3E%3Crect fill='%23000' x='10' y='25' width='12' height='2'/%3E%3C/svg%3E" alt="Sound Recorder">
+            <span>Звукозапись</span>
+        </div>
+        <div class="desktop-icon" style="left: 435px; top: 370px;" data-app="defrag" draggable="true">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Crect fill='%230000ff' x='4' y='6' width='5' height='5'/%3E%3Crect fill='%2300cc00' x='11' y='6' width='5' height='5'/%3E%3Crect fill='%23ff0000' x='18' y='6' width='5' height='5'/%3E%3Crect fill='%230000ff' x='4' y='13' width='5' height='5'/%3E%3Crect fill='%2300cc00' x='11' y='13' width='5' height='5'/%3E%3C/svg%3E" alt="Defrag">
+            <span>Дефрагментация</span>
+        </div>
     </div>
 
     <!-- Context Menu -->
     <div class="context-menu" id="contextMenu"></div>
+
+    <!-- Custom tooltip -->
+    <div id="osTooltip"></div>
+
+    <!-- CRT overlay -->
+    <div id="crtOverlay"></div>
+
+    <!-- Shutdown screen -->
+    <div class="shutdown-screen" id="shutdownScreen">
+        <div class="safe-text">Теперь питание компьютера<br>можно отключить.</div>
+        <div style="color: #888; font-size: 13px; margin-top: 40px;">Forest OS 98 — щёлкните, чтобы перезагрузить</div>
+    </div>
+
+    <!-- Blue Screen of Death -->
+    <div class="bsod" id="bsod">
+        <div class="bsod-title">Forest OS</div>
+        <p>Произошла фатальная исключительная ошибка 0E по адресу 0028:C001F0RE3 в VXD WOLF(01) +<br>00010E36. Текущее приложение будет завершено.</p>
+        <br>
+        <p>*&nbsp; Нажмите любую клавишу для завершения работы текущего приложения.</p>
+        <p>*&nbsp; Нажмите CTRL+ALT+DEL ещё раз для перезагрузки компьютера.<br>&nbsp;&nbsp;&nbsp;При этом вы потеряете несохранённые данные во всех приложениях.</p>
+        <br><br>
+        <p style="text-align: center;">Нажмите любую клавишу для продолжения <span style="animation: safePulse 1s infinite;">_</span></p>
+    </div>
+
+    <!-- Volume tray popup -->
+    <div class="tray-popup" id="volumePopup" style="width: 70px;">
+        <div style="text-align: center; font-size: 10px; margin-bottom: 6px;">Громкость</div>
+        <input type="range" min="0" max="100" value="50" id="volumeSlider" oninput="setSystemVolume(this.value)" style="writing-mode: vertical-lr; direction: rtl; height: 120px;">
+        <div style="text-align: center; margin-top: 6px;">
+            <label style="font-size: 10px; display: flex; align-items: center; gap: 3px; justify-content: center;">
+                <input type="checkbox" id="volumeMute" onchange="toggleMute(this.checked)"> Выкл.
+            </label>
+        </div>
+    </div>
+
+    <!-- Clock tray calendar popup -->
+    <div class="tray-popup" id="clockPopup" style="width: 220px;">
+        <div id="clockPopupTime" style="text-align: center; font-size: 22px; font-family: 'Courier New', monospace; font-weight: bold; margin-bottom: 4px;"></div>
+        <div id="clockPopupDate" style="text-align: center; font-size: 11px; margin-bottom: 8px; color: #333;"></div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+            <button onclick="clockPopupNav(-1)" style="padding: 1px 8px; font-size: 10px;">◀</button>
+            <strong id="clockPopupMonth" style="font-size: 11px;"></strong>
+            <button onclick="clockPopupNav(1)" style="padding: 1px 8px; font-size: 10px;">▶</button>
+        </div>
+        <div id="clockPopupGrid" style="display: grid; grid-template-columns: repeat(7,1fr); gap: 1px; font-size: 10px; text-align: center;"></div>
+    </div>
+
+    <!-- Tip of the Day -->
+    <div id="tipOfDay" style="position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 420px; background: #c0c0c0; border: 2px outset #dfdfdf; box-shadow: 4px 4px 12px rgba(0,0,0,0.5); z-index: 95000; display: none;">
+        <div class="title-bar">
+            <div class="title-bar-text">💡 Полезный совет</div>
+            <div class="title-bar-controls"><div class="title-bar-btn" onclick="closeTipOfDay()">×</div></div>
+        </div>
+        <div style="padding: 16px; display: flex; gap: 16px;">
+            <div style="font-size: 48px;">🐺</div>
+            <div style="flex: 1;">
+                <h3 style="font-size: 13px; margin-bottom: 8px;">Знаете ли вы...</h3>
+                <div id="tipText" style="font-size: 12px; line-height: 1.6; min-height: 70px;"></div>
+            </div>
+        </div>
+        <div style="padding: 0 16px 16px; display: flex; align-items: center; gap: 8px;">
+            <label style="font-size: 11px; display: flex; align-items: center; gap: 4px; margin-right: auto;">
+                <input type="checkbox" id="tipShowStartup" onchange="toggleTipStartup(this.checked)" checked> Показывать при запуске
+            </label>
+            <button onclick="nextTip()" style="padding: 4px 12px; font-size: 11px;">Следующий совет</button>
+            <button onclick="closeTipOfDay()" style="padding: 4px 12px; font-size: 11px;">Закрыть</button>
+        </div>
+    </div>
 
     <!-- Taskbar -->
     <div class="taskbar">
@@ -1101,6 +1357,10 @@
                 <div class="start-menu-submenu-item" data-app="calculator">
                     <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23c0c0c0' width='16' height='16'/%3E%3Ctext x='8' y='12' font-size='10' text-anchor='middle'%3E123%3C/text%3E%3C/svg%3E" alt="">
                     Калькулятор
+                </div>
+                <div class="start-menu-submenu-item" data-app="calendar">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23ffffff' width='16' height='16'/%3E%3Crect fill='%23ff0000' width='16' height='5'/%3E%3Ctext x='8' y='13' font-size='8' text-anchor='middle'%3E31%3C/text%3E%3C/svg%3E" alt="">
+                    Календарь
                 </div>
                 <div class="start-menu-submenu-separator"></div>
                 <div class="start-menu-submenu-item" style="font-weight: bold; background: #a0a0a0;">Игры</div>
@@ -1177,6 +1437,28 @@
                 <div class="start-menu-submenu-item" data-app="paintnet">
             <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23007acc' width='16' height='16'/%3E%3Ctext x='8' y='12' font-size='10' fill='white' text-anchor='middle'%3EPN%3C/text%3E%3C/svg%3E" alt="">
             Paint.NET
+                </div>
+                <div class="start-menu-submenu-separator"></div>
+                <div class="start-menu-submenu-item" style="font-weight: bold; background: #a0a0a0;">Системные</div>
+                <div class="start-menu-submenu-item" data-app="taskmgr">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23c0c0c0' width='16' height='16'/%3E%3Crect fill='%23008000' x='2' y='8' width='5' height='6'/%3E%3Crect fill='%23008000' x='9' y='10' width='5' height='4'/%3E%3C/svg%3E" alt="">
+                    Диспетчер задач
+                </div>
+                <div class="start-menu-submenu-item" data-app="regedit">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23c0c0c0' width='16' height='16'/%3E%3Crect fill='white' x='2' y='2' width='5' height='12'/%3E%3Crect fill='%23000080' x='8' y='4' width='6' height='2'/%3E%3Crect fill='%23000080' x='8' y='10' width='6' height='2'/%3E%3C/svg%3E" alt="">
+                    Редактор реестра
+                </div>
+                <div class="start-menu-submenu-item" data-app="charmap">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='white' width='16' height='16'/%3E%3Ctext x='8' y='12' font-size='11' text-anchor='middle'%3E%26%23937;%3C/text%3E%3C/svg%3E" alt="">
+                    Таблица символов
+                </div>
+                <div class="start-menu-submenu-item" data-app="soundrec">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23c0c0c0' width='16' height='16'/%3E%3Ccircle fill='%23ff0000' cx='8' cy='7' r='3'/%3E%3C/svg%3E" alt="">
+                    Звукозапись
+                </div>
+                <div class="start-menu-submenu-item" data-app="defrag">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23c0c0c0' width='16' height='16'/%3E%3Crect fill='%230000ff' x='2' y='3' width='3' height='3'/%3E%3Crect fill='%2300cc00' x='6' y='3' width='3' height='3'/%3E%3Crect fill='%23ff0000' x='10' y='3' width='3' height='3'/%3E%3C/svg%3E" alt="">
+                    Дефрагментация диска
                 </div>
             </div>
         </div>
@@ -1980,7 +2262,7 @@ Visit example.org for more info!</textarea>
             </div>
             <div style="display: flex; height: calc(100% - 40px); overflow: hidden;">
                 <div id="notepadLineNumbersGutter" style="width: 0; padding: 8px 4px; font-family: 'Courier New', monospace; font-size: 12px; background: #f0f0f0; color: #666; text-align: right; border-right: 1px solid #ccc; overflow-y: auto; user-select: none; line-height: 1.5; display: none;"></div>
-                <textarea id="notepadContent" style="flex: 1; padding: 8px; font-family: 'Courier New', monospace; font-size: 12px; border: none; resize: none; line-height: 1.5; tab-size: 4;" spellcheck="false"></textarea>
+                <textarea id="notepadContent" oninput="notepadUpdateLineNumbers()" style="flex: 1; padding: 8px; font-family: 'Courier New', monospace; font-size: 12px; border: none; resize: none; line-height: 1.5; tab-size: 4;" spellcheck="false"></textarea>
             </div>
         </div>
     </div>
@@ -2268,6 +2550,267 @@ Visit example.org for more info!</textarea>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Tetris Window -->
+    <div class="window" id="tetrisWindow" style="left: 280px; top: 60px; width: 380px; height: 520px;">
+        <div class="title-bar">
+            <div class="title-bar-text">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23000080' width='16' height='16'/%3E%3Ctext x='8' y='12' font-size='12' fill='%23ff0000' text-anchor='middle'%3ET%3C/text%3E%3C/svg%3E" alt="">
+                Tetris
+            </div>
+            <div class="title-bar-controls">
+                <div class="title-bar-btn" onclick="minimizeWindow('tetrisWindow')">_</div>
+                <div class="title-bar-btn" onclick="maximizeWindow('tetrisWindow')">□</div>
+                <div class="title-bar-btn" onclick="closeWindow('tetrisWindow')">×</div>
+            </div>
+        </div>
+        <div class="window-content" style="padding: 8px;">
+            <div style="display: flex; gap: 12px;">
+                <canvas id="tetrisCanvas" width="200" height="400" style="border: 2px inset #c0c0c0; background: #000;"></canvas>
+                <div style="flex: 1; display: flex; flex-direction: column; gap: 6px; font-size: 11px;">
+                    <div>Следующая:</div>
+                    <canvas id="tetrisNext" width="80" height="80" style="border: 2px inset #c0c0c0; background: #000;"></canvas>
+                    <div>Счёт: <span id="tetrisScore">0</span></div>
+                    <div>Уровень: <span id="tetrisLevel">1</span></div>
+                    <div>Линии: <span id="tetrisLines">0</span></div>
+                    <button onclick="initTetris()" style="padding: 4px 8px; font-size: 11px;">Новая игра</button>
+                    <button id="tetrisPauseBtn" onclick="toggleTetrisPause()" style="padding: 4px 8px; font-size: 11px;">⏸ Пауза</button>
+                    <div style="font-size: 10px; color: #666; margin-top: 6px; line-height: 1.6;">← → движение<br>↑ поворот<br>↓ ускорение<br>Пробел — пауза</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recycle Bin Window -->
+    <div class="window" id="recyclebinWindow" style="left: 320px; top: 140px; width: 460px; height: 320px;">
+        <div class="title-bar">
+            <div class="title-bar-text">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23c0c0c0' width='16' height='16'/%3E%3Cpath fill='%23808080' d='M4 4 L12 4 L12 13 L4 13 Z'/%3E%3C/svg%3E" alt="">
+                Корзина
+            </div>
+            <div class="title-bar-controls">
+                <div class="title-bar-btn" onclick="minimizeWindow('recyclebinWindow')">_</div>
+                <div class="title-bar-btn" onclick="maximizeWindow('recyclebinWindow')">□</div>
+                <div class="title-bar-btn" onclick="closeWindow('recyclebinWindow')">×</div>
+            </div>
+        </div>
+        <div class="window-content" style="padding: 0;">
+            <div style="padding: 4px; border-bottom: 1px solid #808080; display: flex; gap: 4px; background: #c0c0c0;">
+                <button onclick="emptyRecycleBin()" style="padding: 2px 8px; font-size: 10px;">🗑 Очистить корзину</button>
+            </div>
+            <div id="recyclebinContent" data-empty="true" style="border: 2px inset #dfdfdf; margin: 4px; height: calc(100% - 50px); background: #fff;">
+                <div style="padding: 24px; text-align: center; color: #666; font-size: 12px;">Корзина пуста</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calendar Window -->
+    <div class="window" id="calendarWindow" style="left: 260px; top: 90px; width: 480px; height: 470px;">
+        <div class="title-bar">
+            <div class="title-bar-text">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23ffffff' width='16' height='16'/%3E%3Crect fill='%23ff0000' width='16' height='5'/%3E%3Ctext x='8' y='13' font-size='8' text-anchor='middle'%3E31%3C/text%3E%3C/svg%3E" alt="">
+                Календарь
+            </div>
+            <div class="title-bar-controls">
+                <div class="title-bar-btn" onclick="minimizeWindow('calendarWindow')">_</div>
+                <div class="title-bar-btn" onclick="maximizeWindow('calendarWindow')">□</div>
+                <div class="title-bar-btn" onclick="closeWindow('calendarWindow')">×</div>
+            </div>
+        </div>
+        <div class="window-content" style="padding: 8px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                <button onclick="calendarPrevMonth()" style="padding: 2px 12px; font-size: 11px;">◀</button>
+                <strong id="calendarMonthYear" style="font-size: 12px;"></strong>
+                <button onclick="calendarNextMonth()" style="padding: 2px 12px; font-size: 11px;">▶</button>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; font-size: 10px; font-weight: bold; text-align: center; margin-bottom: 2px;">
+                <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div style="color: #c00;">Сб</div><div style="color: #c00;">Вс</div>
+            </div>
+            <div id="calendarGrid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; border: 2px inset #dfdfdf; background: #fff; padding: 2px;"></div>
+            <div style="margin-top: 8px; border-top: 1px solid #808080; padding-top: 6px;">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <strong id="calendarSelectedDate" style="font-size: 11px;">Выберите дату</strong>
+                    <button onclick="calendarAddEvent()" style="padding: 2px 8px; font-size: 10px;">+ Событие</button>
+                </div>
+                <div id="calendarEvents" style="margin-top: 4px; max-height: 110px; overflow-y: auto; font-size: 11px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Manager Window -->
+    <div class="window" id="taskmgrWindow" style="left: 240px; top: 90px; width: 460px; height: 420px;">
+        <div class="title-bar">
+            <div class="title-bar-text">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23c0c0c0' width='16' height='16'/%3E%3Crect fill='%23000080' x='2' y='2' width='12' height='3'/%3E%3Crect fill='%23008000' x='2' y='7' width='5' height='7'/%3E%3Crect fill='%23008000' x='9' y='9' width='5' height='5'/%3E%3C/svg%3E" alt="">
+                Диспетчер задач
+            </div>
+            <div class="title-bar-controls">
+                <div class="title-bar-btn" onclick="minimizeWindow('taskmgrWindow')">_</div>
+                <div class="title-bar-btn" onclick="maximizeWindow('taskmgrWindow')">□</div>
+                <div class="title-bar-btn" onclick="closeWindow('taskmgrWindow')">×</div>
+            </div>
+        </div>
+        <div class="window-content" style="padding: 8px; display: flex; flex-direction: column;">
+            <div style="display: flex; margin-bottom: -1px;">
+                <div class="tm-tab active" id="tmTabApps" onclick="taskmgrSwitchTab('apps')">Приложения</div>
+                <div class="tm-tab" id="tmTabProc" onclick="taskmgrSwitchTab('proc')">Процессы</div>
+                <div class="tm-tab" id="tmTabPerf" onclick="taskmgrSwitchTab('perf')">Быстродействие</div>
+            </div>
+            <div style="flex: 1; border: 2px inset #dfdfdf; background: #fff; overflow: auto;">
+                <div id="tmApps"></div>
+                <div id="tmProc" style="display: none;"></div>
+                <div id="tmPerf" style="display: none; padding: 12px;"></div>
+            </div>
+            <div style="margin-top: 8px; display: flex; gap: 8px; justify-content: flex-end;">
+                <span id="tmStatus" style="margin-right: auto; font-size: 10px; color: #444; align-self: center;"></span>
+                <button onclick="taskmgrEndTask()" style="padding: 4px 14px; font-size: 11px;">Снять задачу</button>
+                <button onclick="taskmgrRefresh()" style="padding: 4px 14px; font-size: 11px;">Обновить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Character Map Window -->
+    <div class="window" id="charmapWindow" style="left: 260px; top: 100px; width: 540px; height: 440px;">
+        <div class="title-bar">
+            <div class="title-bar-text">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23fff' width='16' height='16'/%3E%3Ctext x='8' y='12' font-size='12' text-anchor='middle'%3E%26%23937;%3C/text%3E%3C/svg%3E" alt="">
+                Таблица символов
+            </div>
+            <div class="title-bar-controls">
+                <div class="title-bar-btn" onclick="minimizeWindow('charmapWindow')">_</div>
+                <div class="title-bar-btn" onclick="maximizeWindow('charmapWindow')">□</div>
+                <div class="title-bar-btn" onclick="closeWindow('charmapWindow')">×</div>
+            </div>
+        </div>
+        <div class="window-content" style="padding: 8px;">
+            <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px; font-size: 11px;">
+                <span>Набор:</span>
+                <select id="charmapSet" onchange="renderCharmap()" style="font-size: 11px; padding: 2px;">
+                    <option value="latin">Латиница</option>
+                    <option value="cyrillic">Кириллица</option>
+                    <option value="symbols">Символы</option>
+                    <option value="box">Псевдографика</option>
+                    <option value="emoji">Эмодзи</option>
+                </select>
+            </div>
+            <div id="charmapGrid" class="charmap-grid" style="border: 2px inset #dfdfdf; padding: 2px; height: 280px; overflow-y: auto;"></div>
+            <div style="display: flex; gap: 6px; align-items: center; margin-top: 8px;">
+                <span style="font-size: 11px;">Для копирования:</span>
+                <input type="text" id="charmapBuffer" style="flex: 1; padding: 4px; border: 2px inset #dfdfdf; font-size: 14px;">
+                <button onclick="charmapCopy()" style="padding: 4px 12px; font-size: 11px;">Копировать</button>
+                <button onclick="document.getElementById('charmapBuffer').value=''" style="padding: 4px 12px; font-size: 11px;">Очистить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registry Editor Window -->
+    <div class="window" id="regeditWindow" style="left: 200px; top: 80px; width: 640px; height: 460px;">
+        <div class="title-bar">
+            <div class="title-bar-text">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23c0c0c0' width='16' height='16'/%3E%3Crect fill='%23fff' x='2' y='2' width='5' height='12'/%3E%3Crect fill='%23000080' x='8' y='3' width='6' height='2'/%3E%3Crect fill='%23000080' x='8' y='7' width='6' height='2'/%3E%3Crect fill='%23000080' x='8' y='11' width='6' height='2'/%3E%3C/svg%3E" alt="">
+                Редактор реестра
+            </div>
+            <div class="title-bar-controls">
+                <div class="title-bar-btn" onclick="minimizeWindow('regeditWindow')">_</div>
+                <div class="title-bar-btn" onclick="maximizeWindow('regeditWindow')">□</div>
+                <div class="title-bar-btn" onclick="closeWindow('regeditWindow')">×</div>
+            </div>
+        </div>
+        <div class="window-content" style="padding: 0; display: flex; flex-direction: column;">
+            <div style="padding: 3px 6px; border-bottom: 1px solid #808080; background: #c0c0c0; font-size: 11px;">
+                <span style="cursor: pointer;" onclick="regeditAddValue()">Правка</span>
+                &nbsp;&nbsp;<span style="cursor: pointer;" onclick="regeditRefresh()">Вид</span>
+            </div>
+            <div style="flex: 1; display: flex; overflow: hidden;">
+                <div id="regeditTree" style="width: 240px; border-right: 2px inset #dfdfdf; background: #fff; overflow: auto; padding: 4px;"></div>
+                <div style="flex: 1; background: #fff; overflow: auto;">
+                    <div style="display: flex; font-size: 11px; font-weight: bold; background: #c0c0c0; border-bottom: 1px solid #808080;">
+                        <div style="flex: 1; padding: 3px 6px; border-right: 1px solid #808080;">Имя</div>
+                        <div style="flex: 1; padding: 3px 6px;">Значение</div>
+                    </div>
+                    <div id="regeditValues"></div>
+                </div>
+            </div>
+            <div id="regeditPath" style="padding: 3px 6px; border-top: 1px solid #808080; background: #c0c0c0; font-size: 10px; color: #333;">Компьютер</div>
+        </div>
+    </div>
+
+    <!-- Sound Recorder Window -->
+    <div class="window" id="soundrecWindow" style="left: 320px; top: 160px; width: 360px; height: 260px;">
+        <div class="title-bar">
+            <div class="title-bar-text">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23c0c0c0' width='16' height='16'/%3E%3Ccircle fill='%23ff0000' cx='8' cy='7' r='3'/%3E%3Crect fill='%23000' x='7' y='10' width='2' height='3'/%3E%3C/svg%3E" alt="">
+                Звукозапись
+            </div>
+            <div class="title-bar-controls">
+                <div class="title-bar-btn" onclick="minimizeWindow('soundrecWindow')">_</div>
+                <div class="title-bar-btn" onclick="maximizeWindow('soundrecWindow')">□</div>
+                <div class="title-bar-btn" onclick="closeWindow('soundrecWindow')">×</div>
+            </div>
+        </div>
+        <div class="window-content" style="padding: 12px; text-align: center;">
+            <canvas id="soundrecCanvas" width="320" height="80" style="border: 2px inset #dfdfdf; background: #000; width: 100%;"></canvas>
+            <div id="soundrecTime" style="font-family: 'Courier New', monospace; font-size: 18px; margin: 8px 0;">00:00.0</div>
+            <div style="display: flex; gap: 6px; justify-content: center;">
+                <button id="soundrecRecBtn" onclick="soundrecToggleRecord()" style="padding: 6px 14px; font-size: 11px;">● Запись</button>
+                <button id="soundrecPlayBtn" onclick="soundrecPlay()" style="padding: 6px 14px; font-size: 11px;" disabled>▶ Воспроизв.</button>
+                <button onclick="soundrecSave()" id="soundrecSaveBtn" style="padding: 6px 14px; font-size: 11px;" disabled>💾 Сохранить</button>
+            </div>
+            <div id="soundrecStatus" style="font-size: 10px; color: #666; margin-top: 8px;">Готов к записи</div>
+        </div>
+    </div>
+
+    <!-- Disk Defragmenter Window -->
+    <div class="window" id="defragWindow" style="left: 220px; top: 100px; width: 560px; height: 460px;">
+        <div class="title-bar">
+            <div class="title-bar-text">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23c0c0c0' width='16' height='16'/%3E%3Crect fill='%230000ff' x='2' y='2' width='3' height='3'/%3E%3Crect fill='%2300ff00' x='6' y='2' width='3' height='3'/%3E%3Crect fill='%23ff0000' x='10' y='2' width='3' height='3'/%3E%3C/svg%3E" alt="">
+                Дефрагментация диска
+            </div>
+            <div class="title-bar-controls">
+                <div class="title-bar-btn" onclick="minimizeWindow('defragWindow')">_</div>
+                <div class="title-bar-btn" onclick="maximizeWindow('defragWindow')">□</div>
+                <div class="title-bar-btn" onclick="closeWindow('defragWindow')">×</div>
+            </div>
+        </div>
+        <div class="window-content" style="padding: 12px;">
+            <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 10px; font-size: 11px;">
+                <span>Диск:</span>
+                <select id="defragDrive" style="font-size: 11px; padding: 2px;">
+                    <option value="C">Диск (C:)</option>
+                    <option value="D">CD-ROM (D:)</option>
+                </select>
+                <button onclick="defragStart()" id="defragStartBtn" style="padding: 4px 14px; font-size: 11px;">Дефрагментация</button>
+                <button onclick="defragStop()" style="padding: 4px 14px; font-size: 11px;">Стоп</button>
+            </div>
+            <div id="defragGrid" class="defrag-grid"></div>
+            <div style="margin-top: 10px;">
+                <div style="border: 2px inset #dfdfdf; height: 18px; background: #fff;">
+                    <div id="defragProgress" style="height: 100%; width: 0; background: linear-gradient(to right,#0a4d3c,#1a6b52);"></div>
+                </div>
+                <div id="defragStatus" style="font-size: 11px; margin-top: 6px;">Готов к запуску.</div>
+            </div>
+            <div style="display: flex; gap: 16px; margin-top: 10px; font-size: 10px; flex-wrap: wrap;">
+                <span><span style="display:inline-block;width:10px;height:10px;background:#1a6b52;"></span> Используется</span>
+                <span><span style="display:inline-block;width:10px;height:10px;background:#7fc8b0;"></span> Фрагментировано</span>
+                <span><span style="display:inline-block;width:10px;height:10px;background:#fff;border:1px solid #808080;"></span> Свободно</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Drive Properties Window -->
+    <div class="window" id="drivePropertiesWindow" style="left: 320px; top: 140px; width: 360px; height: 380px;">
+        <div class="title-bar">
+            <div class="title-bar-text">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23808080' width='16' height='16'/%3E%3C/svg%3E" alt="">
+                Свойства: Диск
+            </div>
+            <div class="title-bar-controls">
+                <div class="title-bar-btn" onclick="closeWindow('drivePropertiesWindow')">×</div>
+            </div>
+        </div>
+        <div class="window-content" style="padding: 16px;" id="drivePropertiesBody"></div>
     </div>
 
     <!-- Recent Documents Window -->
@@ -2609,13 +3152,20 @@ Visit example.org for more info!</textarea>
                     <button style="padding: 4px 8px; font-size: 10px;" onclick="changeBackground('black')">Чёрный</button>
                 </div>
                 <hr style="margin: 16px 0;">
-                <p style="margin-bottom: 8px;"><strong>Диски:</strong></p>
+                <p style="margin-bottom: 8px; font-size: 11px;"><strong>Эффекты и оформление:</strong></p>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+                    <button style="padding: 4px 8px; font-size: 10px;" onclick="toggleCRT()">🖥️ Эффект ЭЛТ вкл/выкл</button>
+                    <button style="padding: 4px 8px; font-size: 10px;" onclick="showTipOfDay()">💡 Совет дня</button>
+                    <button style="padding: 4px 8px; font-size: 10px;" onclick="openWindow('taskmgrWindow')">📊 Диспетчер задач</button>
+                </div>
+                <hr style="margin: 16px 0;">
+                <p style="margin-bottom: 8px;"><strong>Диски:</strong> <span style="font-size:9px;color:#666;">(двойной щелчок — свойства)</span></p>
                 <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-                    <div style="text-align: center;">
+                    <div style="text-align: center; cursor: pointer;" ondblclick="showDriveProperties('C')" title="Свойства диска C:">
                         <div style="font-size: 32px;">💾</div>
                         <div style="font-size: 11px;">Диск (C:)</div>
                     </div>
-                    <div style="text-align: center;">
+                    <div style="text-align: center; cursor: pointer;" ondblclick="showDriveProperties('D')" title="Свойства CD-ROM D:">
                         <div style="font-size: 32px;">💿</div>
                         <div style="font-size: 11px;">CD-ROM (D:)</div>
                     </div>
@@ -3089,34 +3639,52 @@ Visit example.org for more info!</textarea>
             return _sharedSoundContext;
         }
 
-        function playSound(type) {
-            const sounds = {
-                'startup': [200, 400, 600],
-                'ready': [600, 800],
-                'click': [400],
-                'save': [600, 500],
-                'delete': [300, 200]
-            };
+        // Authentic Win98-style sound scheme. Each note: [freq, durationSec, waveType?]
+        const SOUND_SCHEMES = {
+            'startup':  [[392,0.18,'sine'],[523,0.18,'sine'],[659,0.18,'sine'],[784,0.36,'sine']],
+            'ready':    [[659,0.12,'sine'],[880,0.18,'sine']],
+            'click':    [[660,0.03,'square']],
+            'hover':    [[880,0.015,'sine']],
+            'save':     [[784,0.08,'sine'],[988,0.12,'sine']],
+            'delete':   [[330,0.08,'sawtooth'],[220,0.14,'sawtooth']],
+            'recycle':  [[200,0.05,'sawtooth'],[160,0.05,'sawtooth'],[120,0.18,'sawtooth']],
+            'error':    [[349,0.16,'square'],[330,0.28,'square']],
+            'minimize': [[600,0.05,'sine'],[400,0.08,'sine']],
+            'maximize': [[400,0.05,'sine'],[600,0.08,'sine']],
+            'notify':   [[784,0.1,'sine'],[1047,0.14,'sine']],
+            'tada':     [[523,0.12,'sine'],[659,0.12,'sine'],[784,0.12,'sine'],[1047,0.3,'sine']],
+            'tick':     [[1200,0.012,'square']],
+            'chord':    [[523,0.5,'sine'],[659,0.5,'sine'],[784,0.5,'sine']],
+            'shutdown': [[784,0.18,'sine'],[659,0.18,'sine'],[523,0.18,'sine'],[392,0.5,'sine']]
+        };
 
-            const frequencies = sounds[type] || [400];
-            const audioContext = _getSoundContext();
-            
-            frequencies.forEach((freq, i) => {
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.frequency.value = freq;
-                oscillator.type = 'square';
-                
-                const startTime = audioContext.currentTime + i * 0.1;
-                gainNode.gain.setValueAtTime(0.1, startTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + 0.1);
-                
-                oscillator.start(startTime);
-                oscillator.stop(startTime + 0.1);
+        function isSoundMuted() {
+            if (loadFromStorage('system_sounds_enabled', 'true') === 'false') return true;
+            return parseInt(loadFromStorage('system_volume', '50')) === 0;
+        }
+
+        function playSound(type) {
+            if (isSoundMuted()) return;
+            const scheme = SOUND_SCHEMES[type] || SOUND_SCHEMES['click'];
+            const vol = parseInt(loadFromStorage('system_volume', '50')) / 100;
+            let audioContext;
+            try { audioContext = _getSoundContext(); } catch (e) { return; }
+            const isChord = type === 'chord';
+            scheme.forEach((note, i) => {
+                const [freq, dur, wave] = note;
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+                osc.frequency.value = freq;
+                osc.type = wave || 'sine';
+                const startTime = audioContext.currentTime + (isChord ? 0 : i * Math.max(0.04, dur * 0.6));
+                const peak = 0.12 * vol;
+                gain.gain.setValueAtTime(0.0001, startTime);
+                gain.gain.exponentialRampToValueAtTime(peak, startTime + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.0001, startTime + dur);
+                osc.start(startTime);
+                osc.stop(startTime + dur + 0.02);
             });
         }
 
@@ -3467,15 +4035,20 @@ Visit example.org for more info!</textarea>
 
         function shutdownSystem() {
             const dialog = document.getElementById('shutdownDialog');
-            if (dialog) {
-                dialog.innerHTML = '<div style="padding: 40px; text-align: center; color: #00ff41; font-size: 14px;">Завершение работы Windows...<br><br>Теперь можно безопасно выключить компьютер.</div>';
-                setTimeout(() => {
-                    document.body.style.opacity = '0';
-                    setTimeout(() => {
-                        alert('Windows завершил работу. Можно выключить компьютер.');
-                    }, 1000);
-                }, 2000);
+            if (dialog) dialog.classList.remove('active');
+            const screen = document.getElementById('shutdownScreen');
+            const desktop = document.getElementById('desktop');
+            playSound('shutdown');
+            if (desktop) {
+                desktop.style.transition = 'opacity 1.5s';
+                desktop.style.opacity = '0';
             }
+            setTimeout(() => {
+                if (screen) {
+                    screen.classList.add('active');
+                    screen.onclick = () => location.reload();
+                }
+            }, 1600);
         }
 
         function restartSystem() {
@@ -3501,19 +4074,90 @@ Visit example.org for more info!</textarea>
         // SYSTEM TRAY
         // ============================================
         function toggleVolume() {
-            const volume = parseInt(loadFromStorage('system_volume', '50'));
-            const newVolume = volume > 0 ? 0 : 50;
-            saveToStorage('system_volume', newVolume.toString());
-            if (document.getElementById('systemVolume')) {
-                document.getElementById('systemVolume').value = newVolume;
+            const popup = document.getElementById('volumePopup');
+            const tray = document.getElementById('trayVolume');
+            if (!popup || !tray) return;
+            if (popup.classList.contains('active')) { popup.classList.remove('active'); return; }
+            const vol = parseInt(loadFromStorage('system_volume', '50'));
+            document.getElementById('volumeSlider').value = vol;
+            document.getElementById('volumeMute').checked = vol === 0 || loadFromStorage('system_sounds_enabled', 'true') === 'false';
+            const r = tray.getBoundingClientRect();
+            popup.style.left = (r.left - 25) + 'px';
+            popup.style.top = (r.top - 175) + 'px';
+            popup.classList.add('active');
+            const cp = document.getElementById('clockPopup');
+            if (cp) cp.classList.remove('active');
+        }
+        function setSystemVolume(val) {
+            saveToStorage('system_volume', String(val));
+            if (parseInt(val) > 0) saveToStorage('system_sounds_enabled', 'true');
+            const slider = document.getElementById('systemVolume');
+            if (slider) slider.value = val;
+            const mute = document.getElementById('volumeMute');
+            if (mute) mute.checked = parseInt(val) === 0;
+            playSound('tick');
+        }
+        function toggleMute(muted) {
+            if (muted) {
+                saveToStorage('system_volume_prev', loadFromStorage('system_volume', '50'));
+                saveToStorage('system_sounds_enabled', 'false');
+                document.getElementById('volumeSlider').value = 0;
+            } else {
+                saveToStorage('system_sounds_enabled', 'true');
+                const prev = loadFromStorage('system_volume_prev', '50');
+                saveToStorage('system_volume', prev);
+                document.getElementById('volumeSlider').value = prev;
+                playSound('click');
             }
-            const icon = document.getElementById('trayVolume');
-            if (icon) {
-                icon.innerHTML = newVolume > 0 
-                    ? '<img src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 16 16\'%3E%3Crect fill=\'%23c0c0c0\' width=\'16\' height=\'16\'/%3E%3Cpath fill=\'%23000\' d=\'M4 4 L8 6 L8 10 L4 12 Z M10 5 L12 7 L10 9 Z M10 9 L12 11 L10 13 Z\'/%3E%3C/svg%3E" alt="Volume">'
-                    : '<img src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 16 16\'%3E%3Crect fill=\'%23c0c0c0\' width=\'16\' height=\'16\'/%3E%3Cpath fill=\'%23ff0000\' d=\'M4 4 L8 6 L8 10 L4 12 Z M10 5 L12 7 L10 9 Z M10 9 L12 11 L10 13 Z M11 4 L13 6 M13 4 L11 6\'/%3E%3C/svg%3E" alt="Muted">';
+        }
+        function toggleClockPopup() {
+            const popup = document.getElementById('clockPopup');
+            const clock = document.getElementById('clock');
+            if (!popup || !clock) return;
+            if (popup.classList.contains('active')) { popup.classList.remove('active'); return; }
+            _clockPopupDate = new Date();
+            renderClockPopup();
+            const r = clock.getBoundingClientRect();
+            popup.style.left = Math.max(2, r.right - 220) + 'px';
+            popup.style.top = (r.top - 190) + 'px';
+            popup.classList.add('active');
+            const vp = document.getElementById('volumePopup');
+            if (vp) vp.classList.remove('active');
+        }
+        let _clockPopupDate = new Date();
+        function clockPopupNav(dir) {
+            _clockPopupDate.setMonth(_clockPopupDate.getMonth() + dir);
+            renderClockPopup();
+        }
+        function renderClockPopup() {
+            const now = new Date();
+            document.getElementById('clockPopupTime').textContent = now.toLocaleTimeString('ru-RU');
+            document.getElementById('clockPopupDate').textContent = now.toLocaleDateString('ru-RU', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            const y = _clockPopupDate.getFullYear();
+            const m = _clockPopupDate.getMonth();
+            document.getElementById('clockPopupMonth').textContent = monthNames[m] + ' ' + y;
+            const grid = document.getElementById('clockPopupGrid');
+            grid.innerHTML = '';
+            ['П', 'В', 'С', 'Ч', 'П', 'С', 'В'].forEach(d => {
+                const h = document.createElement('div');
+                h.textContent = d;
+                h.style.fontWeight = 'bold';
+                grid.appendChild(h);
+            });
+            const first = (new Date(y, m, 1).getDay() + 6) % 7;
+            const days = new Date(y, m + 1, 0).getDate();
+            for (let i = 0; i < first; i++) grid.appendChild(document.createElement('div'));
+            for (let d = 1; d <= days; d++) {
+                const cell = document.createElement('div');
+                cell.textContent = d;
+                cell.style.padding = '2px 0';
+                if (now.getFullYear() === y && now.getMonth() === m && now.getDate() === d) {
+                    cell.style.background = '#000080';
+                    cell.style.color = '#fff';
+                    cell.style.fontWeight = 'bold';
+                }
+                grid.appendChild(cell);
             }
-            playSound('click');
         }
 
         // ============================================
@@ -4423,8 +5067,9 @@ Visit example.org for more info!</textarea>
         function openWindow(windowId) {
             const win = document.getElementById(windowId);
             if (!win) return;
-            
+
             win.classList.add('active');
+            win.classList.remove('minimized');
             win.style.zIndex = ++zIndex;
             updateTaskbar();
 
@@ -4557,6 +5202,38 @@ Visit example.org for more info!</textarea>
                 case 'filesWindow':
                     fileManagerRefresh();
                     break;
+
+                case 'tetrisWindow':
+                    initTetris();
+                    break;
+
+                case 'calendarWindow':
+                    renderCalendar();
+                    break;
+
+                case 'taskmgrWindow':
+                    taskmgrRefresh();
+                    break;
+
+                case 'charmapWindow':
+                    renderCharmap();
+                    break;
+
+                case 'regeditWindow':
+                    regeditInit();
+                    break;
+
+                case 'soundrecWindow':
+                    soundrecInit();
+                    break;
+
+                case 'defragWindow':
+                    defragInit();
+                    break;
+
+                case 'recyclebinWindow':
+                    renderRecycleBin();
+                    break;
             }
         }
 
@@ -4569,11 +5246,23 @@ Visit example.org for more info!</textarea>
             const win = document.getElementById(windowId);
             if (win) {
                 win.classList.remove('active');
+                win.classList.remove('minimized');
                 saveWindowPositions();
                 updateTaskbar();
-                
+
                 // Clean up intervals and timers for specific windows
                 switch(windowId) {
+                    case 'taskmgrWindow':
+                        stopTaskmgrPerf();
+                        break;
+                    case 'defragWindow':
+                        defragStop();
+                        break;
+                    case 'soundrecWindow':
+                        if (soundrecRecorder && soundrecRecorder.state === 'recording') soundrecRecorder.stop();
+                        if (soundrecStream) soundrecStream.getTracks().forEach(t => t.stop());
+                        if (soundrecTimer) clearInterval(soundrecTimer);
+                        break;
                     case 'sysmonWindow':
                         if (sysmonInterval) {
                             clearInterval(sysmonInterval);
@@ -4634,7 +5323,18 @@ Visit example.org for more info!</textarea>
         function minimizeWindow(windowId) {
             const win = document.getElementById(windowId);
             if (win) {
-                win.classList.remove('active');
+                win.classList.add('minimized');
+                updateTaskbar();
+                playSound('minimize');
+            }
+        }
+
+        function restoreWindow(windowId) {
+            const win = document.getElementById(windowId);
+            if (win) {
+                win.classList.remove('minimized');
+                win.classList.add('active');
+                win.style.zIndex = ++zIndex;
                 updateTaskbar();
             }
         }
@@ -4656,11 +5356,23 @@ Visit example.org for more info!</textarea>
             document.querySelectorAll('.window.active').forEach(win => {
                 const item = document.createElement('div');
                 item.className = 'taskbar-item';
+                if (win.classList.contains('minimized')) item.classList.add('minimized');
                 const titleBar = win.querySelector('.title-bar-text');
                 if (titleBar) {
                     item.innerHTML = titleBar.innerHTML;
+                    const label = (titleBar.textContent || '').trim();
+                    if (label) item.title = label;
                     item.onclick = () => {
-                        win.style.zIndex = ++zIndex;
+                        if (win.classList.contains('minimized')) {
+                            restoreWindow(win.id);
+                        } else {
+                            // If already the top-most window, clicking minimizes it (Win98 behaviour)
+                            if (parseInt(win.style.zIndex || 0) === zIndex) {
+                                minimizeWindow(win.id);
+                            } else {
+                                win.style.zIndex = ++zIndex;
+                            }
+                        }
                     };
                     taskbarItems.appendChild(item);
                 }
@@ -4823,7 +5535,18 @@ Visit example.org for more info!</textarea>
                 'word': 'wordWindow',
                 'excel': 'excelWindow',
                 'snake': 'snakeWindow',
-                'hearts': 'heartsWindow'
+                'hearts': 'heartsWindow',
+                'tetris': 'tetrisWindow',
+                'calendar': 'calendarWindow',
+                'calc': 'calculatorWindow',
+                'taskmgr': 'taskmgrWindow',
+                'taskmanager': 'taskmgrWindow',
+                'charmap': 'charmapWindow',
+                'regedit': 'regeditWindow',
+                'soundrec': 'soundrecWindow',
+                'soundrecorder': 'soundrecWindow',
+                'defrag': 'defragWindow',
+                'dfrg': 'defragWindow'
             };
             
             if (appMap[command]) {
@@ -8907,6 +9630,236 @@ Visit example.org for more info!</textarea>
         }
 
         // ============================================
+        // NOTEPAD FILE & EDIT OPERATIONS
+        // ============================================
+        function notepadSetFileName(name) {
+            const el = document.getElementById('notepadFileName');
+            if (el) el.textContent = name;
+        }
+
+        function notepadNew() {
+            const ta = document.getElementById('notepadContent');
+            if (ta && ta.value && !confirm('Создать новый документ? Несохранённые изменения будут потеряны.')) return;
+            if (ta) ta.value = '';
+            notepadSetFileName('Безымянный');
+            notepadUpdateLineNumbers();
+            playSound('click');
+        }
+
+        function notepadOpen() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.txt,.log,.md,.js,.css,.html,.json,.csv';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    const ta = document.getElementById('notepadContent');
+                    if (ta) ta.value = ev.target.result;
+                    notepadSetFileName(file.name);
+                    notepadUpdateLineNumbers();
+                    addToRecentDocuments(file.name, file.name, 'notepad');
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        function notepadSave() {
+            const ta = document.getElementById('notepadContent');
+            if (!ta) return;
+            const nameEl = document.getElementById('notepadFileName');
+            const current = nameEl ? nameEl.textContent : '';
+            const fileName = prompt('Введите имя файла:', current && current !== 'Безымянный' ? current : 'untitled.txt') || 'untitled.txt';
+            const blob = new Blob([ta.value], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            URL.revokeObjectURL(url);
+            notepadSetFileName(fileName);
+            addToRecentDocuments(fileName, fileName, 'notepad');
+            playSound('save');
+        }
+
+        function notepadFind() {
+            const ta = document.getElementById('notepadContent');
+            if (!ta) return;
+            const term = prompt('Найти:');
+            if (!term) return;
+            const from = ta.selectionEnd || 0;
+            let idx = ta.value.indexOf(term, from);
+            if (idx === -1) idx = ta.value.indexOf(term, 0);
+            if (idx === -1) {
+                alert('Текст не найден: "' + term + '"');
+                return;
+            }
+            ta.focus();
+            ta.setSelectionRange(idx, idx + term.length);
+        }
+
+        function notepadReplace() {
+            const ta = document.getElementById('notepadContent');
+            if (!ta) return;
+            const term = prompt('Заменить что:');
+            if (!term) return;
+            const repl = prompt('Заменить на:', '');
+            if (repl === null) return;
+            const count = ta.value.split(term).length - 1;
+            ta.value = ta.value.split(term).join(repl);
+            notepadUpdateLineNumbers();
+            alert('Заменено вхождений: ' + count);
+        }
+
+        function notepadUpdateFont() {
+            const ta = document.getElementById('notepadContent');
+            const font = document.getElementById('notepadFont');
+            const size = document.getElementById('notepadFontSize');
+            if (!ta) return;
+            if (font) ta.style.fontFamily = font.value;
+            if (size) ta.style.fontSize = size.value + 'px';
+        }
+
+        // ============================================
+        // IMAGE VIEWER
+        // ============================================
+        let imageViewerZoom = 1;
+        let imageViewerRotation = 0;
+
+        function imageViewerApplyTransform() {
+            const img = document.getElementById('imageViewerImg');
+            if (img) img.style.transform = `scale(${imageViewerZoom}) rotate(${imageViewerRotation}deg)`;
+        }
+
+        function loadImageViewerImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = document.getElementById('imageViewerImg');
+                const placeholder = document.getElementById('imageViewerPlaceholder');
+                const info = document.getElementById('imageViewerInfo');
+                if (img) {
+                    img.onload = () => {
+                        if (info) info.textContent = `${file.name} — ${img.naturalWidth}×${img.naturalHeight}`;
+                    };
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                }
+                if (placeholder) placeholder.style.display = 'none';
+                imageViewerZoom = 1;
+                imageViewerRotation = 0;
+                imageViewerApplyTransform();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function imageViewerZoomIn() {
+            imageViewerZoom = Math.min(imageViewerZoom + 0.25, 5);
+            imageViewerApplyTransform();
+        }
+
+        function imageViewerZoomOut() {
+            imageViewerZoom = Math.max(imageViewerZoom - 0.25, 0.25);
+            imageViewerApplyTransform();
+        }
+
+        function imageViewerResetZoom() {
+            imageViewerZoom = 1;
+            imageViewerApplyTransform();
+        }
+
+        function imageViewerRotate() {
+            imageViewerRotation = (imageViewerRotation + 90) % 360;
+            imageViewerApplyTransform();
+        }
+
+        // ============================================
+        // RECYCLE BIN (functional)
+        // ============================================
+        let recycleBin = loadFromStorage('forest_recyclebin', []);
+        function recycleBinAdd(item) {
+            item.deletedAt = item.deletedAt || new Date().toISOString();
+            recycleBin.push(item);
+            saveToStorage('forest_recyclebin', recycleBin);
+            updateRecycleIcon();
+        }
+        function updateRecycleIcon() {
+            const icon = document.querySelector('.desktop-icon[data-app="recyclebin"] img');
+            if (!icon) return;
+            const full = recycleBin.length > 0;
+            icon.src = full
+                ? "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Cpath fill='%23808080' d='M8 8 L24 8 L24 26 L8 26 Z'/%3E%3Cpath fill='%2300aa00' d='M10 10 L22 10 L22 24 L10 24 Z'/%3E%3Ctext x='16' y='21' font-size='12' text-anchor='middle' fill='white'%3E%E2%99%BB%3C/text%3E%3C/svg%3E"
+                : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Cpath fill='%23808080' d='M8 8 L24 8 L24 26 L8 26 Z'/%3E%3Cpath fill='white' d='M10 10 L22 10 L22 24 L10 24 Z'/%3E%3Cpath fill='%23808080' d='M12 6 L20 6 L20 8 L12 8 Z'/%3E%3C/svg%3E";
+        }
+        function renderRecycleBin() {
+            const content = document.getElementById('recyclebinContent');
+            if (!content) return;
+            content.innerHTML = '';
+            content.dataset.empty = recycleBin.length === 0 ? 'true' : 'false';
+            if (recycleBin.length === 0) {
+                content.innerHTML = '<div style="padding: 24px; text-align: center; color: #666; font-size: 12px;">Корзина пуста</div>';
+                return;
+            }
+            const header = document.createElement('div');
+            header.style.cssText = 'display:flex;font-weight:bold;font-size:11px;background:#c0c0c0;border-bottom:1px solid #808080;position:sticky;top:0;';
+            header.innerHTML = '<div style="flex:2;padding:3px 6px;">Имя</div><div style="flex:2;padding:3px 6px;">Исходный путь</div><div style="flex:1;padding:3px 6px;">Удалён</div>';
+            content.appendChild(header);
+            recycleBin.forEach((item, idx) => {
+                const row = document.createElement('div');
+                row.style.cssText = 'display:flex;font-size:11px;border-bottom:1px solid #eee;cursor:pointer;padding:1px 0;';
+                const when = item.deletedAt ? new Date(item.deletedAt).toLocaleString('ru-RU') : '';
+                const icon = item.type === 'dir' ? '📁' : '📄';
+                row.innerHTML = '<div style="flex:2;padding:3px 6px;">' + icon + ' ' + item.name + '</div><div style="flex:2;padding:3px 6px;color:#555;">' + (item.originalPath || '') + '</div><div style="flex:1;padding:3px 6px;color:#555;">' + when + '</div>';
+                row.onmouseover = () => row.style.background = '#e0e0ff';
+                row.onmouseout = () => row.style.background = '';
+                row.oncontextmenu = (e) => {
+                    e.preventDefault();
+                    showContextMenu(e, [
+                        { text: 'Восстановить', icon: '↩️', action: () => restoreFromBin(idx) },
+                        { text: 'Удалить навсегда', icon: '❌', action: () => deleteFromBinPermanently(idx) }
+                    ]);
+                };
+                content.appendChild(row);
+            });
+        }
+        function restoreFromBin(idx) {
+            const item = recycleBin[idx];
+            if (!item) return;
+            const path = item.originalPath || currentFMPath;
+            if (!fileSystem[path]) fileSystem[path] = [];
+            const entry = { name: item.name, type: item.type || 'file' };
+            if (item.size) entry.size = item.size;
+            if (item.content !== undefined) entry.content = item.content;
+            fileSystem[path].push(entry);
+            recycleBin.splice(idx, 1);
+            saveToStorage('forest_recyclebin', recycleBin);
+            updateRecycleIcon();
+            renderRecycleBin();
+            if (typeof fileManagerRefresh === 'function' && document.getElementById('filesWindow').classList.contains('active')) fileManagerRefresh();
+            playSound('save');
+        }
+        function deleteFromBinPermanently(idx) {
+            if (!recycleBin[idx] || !confirm('Удалить «' + recycleBin[idx].name + '» навсегда?')) return;
+            recycleBin.splice(idx, 1);
+            saveToStorage('forest_recyclebin', recycleBin);
+            updateRecycleIcon();
+            renderRecycleBin();
+            playSound('delete');
+        }
+        function emptyRecycleBin() {
+            if (recycleBin.length === 0) { alert('Корзина уже пуста.'); return; }
+            if (!confirm('Очистить корзину? Будет удалено объектов: ' + recycleBin.length + '.')) return;
+            recycleBin = [];
+            saveToStorage('forest_recyclebin', recycleBin);
+            updateRecycleIcon();
+            renderRecycleBin();
+            playSound('recycle');
+        }
+
+        // ============================================
         // FLOOD FILL (Paint)
         // ============================================
         function floodFill(startX, startY, fillColor) {
@@ -8943,30 +9896,833 @@ Visit example.org for more info!</textarea>
         }
 
         // ============================================
-        // HEARTS GAME
+        // HEARTS GAME (playable vs 3 AI)
         // ============================================
-        let heartsDeck = [];
-        let heartsHand = [];
+        const HEARTS_SUITS = ['♣', '♦', '♠', '♥'];
+        const HEARTS_RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
         let heartsScores = [0, 0, 0, 0];
-        
+        let heartsHands = [[], [], [], []];
+        let heartsTrick = [];
+        let heartsLeader = 0;
+        let heartsTurn = 0;
+        let heartsBroken = false;
+        let heartsRoundPts = [0, 0, 0, 0];
+        let heartsBusy = false;
+        let heartsTricksPlayed = 0;
+        const HEARTS_NAMES = ['Вы', 'Игрок 1', 'Игрок 2', 'Игрок 3'];
+        function heartsRankValue(r) { return HEARTS_RANKS.indexOf(r); }
+        function heartsCardPoints(c) { return c.suit === '♥' ? 1 : (c.suit === '♠' && c.rank === 'Q' ? 13 : 0); }
+
         function initHearts() {
-            document.getElementById('heartsYourScore').textContent = '0';
-            document.getElementById('heartsP1Score').textContent = '0';
-            document.getElementById('heartsP2Score').textContent = '0';
-            document.getElementById('heartsP3Score').textContent = '0';
+            ['heartsYourScore', 'heartsP1Score', 'heartsP2Score', 'heartsP3Score'].forEach(id => {
+                const el = document.getElementById(id); if (el) el.textContent = '0';
+            });
         }
-        
         function startHearts() {
             heartsScores = [0, 0, 0, 0];
-            document.getElementById('heartsYourScore').textContent = '0';
-            document.getElementById('heartsP1Score').textContent = '0';
-            document.getElementById('heartsP2Score').textContent = '0';
-            document.getElementById('heartsP3Score').textContent = '0';
-            
-            const area = document.getElementById('heartsGameArea');
-            area.innerHTML = '<div style="color: white; font-size: 12px; margin-top: 150px;">Игра Hearts будет реализована в следующей версии.<br>Это карточная игра для 4 игроков.</div>';
+            initHearts();
+            heartsNewRound();
         }
-        
+        function heartsNewRound() {
+            const deck = [];
+            HEARTS_SUITS.forEach(suit => HEARTS_RANKS.forEach(rank => deck.push({ suit, rank })));
+            for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
+            heartsHands = [[], [], [], []];
+            deck.forEach((c, i) => heartsHands[i % 4].push(c));
+            heartsHands.forEach(h => h.sort((a, b) => HEARTS_SUITS.indexOf(a.suit) - HEARTS_SUITS.indexOf(b.suit) || heartsRankValue(a.rank) - heartsRankValue(b.rank)));
+            heartsTrick = [];
+            heartsBroken = false;
+            heartsRoundPts = [0, 0, 0, 0];
+            heartsTricksPlayed = 0;
+            heartsLeader = heartsHands.findIndex(h => h.some(c => c.suit === '♣' && c.rank === '2'));
+            heartsTurn = heartsLeader;
+            heartsBusy = false;
+            renderHearts();
+            if (heartsTurn !== 0) setTimeout(heartsAITurn, 700);
+        }
+        function heartsLegalMoves(player) {
+            const hand = heartsHands[player];
+            const isLead = heartsTrick.length === 0;
+            if (isLead) {
+                if (heartsTricksPlayed === 0 && hand.some(c => c.suit === '♣' && c.rank === '2')) {
+                    return hand.filter(c => c.suit === '♣' && c.rank === '2');
+                }
+                const nonHearts = hand.filter(c => c.suit !== '♥');
+                if (!heartsBroken && nonHearts.length > 0) return nonHearts;
+                return hand.slice();
+            }
+            const led = heartsTrick[0].card.suit;
+            const follow = hand.filter(c => c.suit === led);
+            if (follow.length > 0) return follow;
+            // first trick: cannot dump hearts or Q♠ (unless only those remain)
+            if (heartsTricksPlayed === 0) {
+                const safe = hand.filter(c => heartsCardPoints(c) === 0);
+                if (safe.length > 0) return safe;
+            }
+            return hand.slice();
+        }
+        function heartsPlayCard(player, card) {
+            const hand = heartsHands[player];
+            const i = hand.findIndex(c => c.suit === card.suit && c.rank === card.rank);
+            if (i === -1) return;
+            hand.splice(i, 1);
+            heartsTrick.push({ player, card });
+            if (card.suit === '♥') heartsBroken = true;
+            heartsTurn = (heartsTurn + 1) % 4;
+            playSound('tick');
+            renderHearts();
+            if (heartsTrick.length === 4) {
+                heartsBusy = true;
+                setTimeout(heartsResolveTrick, 900);
+            } else if (heartsTurn !== 0) {
+                setTimeout(heartsAITurn, 700);
+            }
+        }
+        function heartsAITurn() {
+            if (heartsTrick.length === 4) return;
+            const legal = heartsLegalMoves(heartsTurn);
+            if (legal.length === 0) return;
+            let choice;
+            if (heartsTrick.length === 0) {
+                choice = legal.reduce((a, b) => heartsRankValue(a.rank) <= heartsRankValue(b.rank) ? a : b);
+            } else {
+                const led = heartsTrick[0].card.suit;
+                const following = legal.filter(c => c.suit === led);
+                if (following.length > 0) {
+                    choice = following.reduce((a, b) => heartsRankValue(a.rank) <= heartsRankValue(b.rank) ? a : b);
+                } else {
+                    choice = legal.reduce((a, b) => (heartsCardPoints(b) > heartsCardPoints(a) || (heartsCardPoints(b) === heartsCardPoints(a) && heartsRankValue(b.rank) > heartsRankValue(a.rank))) ? b : a);
+                }
+            }
+            heartsPlayCard(heartsTurn, choice);
+        }
+        function heartsResolveTrick() {
+            const led = heartsTrick[0].card.suit;
+            let winner = heartsTrick[0];
+            heartsTrick.forEach(t => { if (t.card.suit === led && heartsRankValue(t.card.rank) > heartsRankValue(winner.card.rank)) winner = t; });
+            const pts = heartsTrick.reduce((s, t) => s + heartsCardPoints(t.card), 0);
+            heartsRoundPts[winner.player] += pts;
+            heartsTricksPlayed++;
+            heartsTrick = [];
+            heartsLeader = winner.player;
+            heartsTurn = winner.player;
+            heartsBusy = false;
+            if (heartsHands.every(h => h.length === 0)) { heartsEndRound(); return; }
+            renderHearts();
+            if (heartsTurn !== 0) setTimeout(heartsAITurn, 700);
+        }
+        function heartsEndRound() {
+            const moon = heartsRoundPts.findIndex(p => p === 26);
+            if (moon !== -1) {
+                for (let i = 0; i < 4; i++) heartsScores[i] += (i === moon ? 0 : 26);
+            } else {
+                for (let i = 0; i < 4; i++) heartsScores[i] += heartsRoundPts[i];
+            }
+            document.getElementById('heartsYourScore').textContent = heartsScores[0];
+            document.getElementById('heartsP1Score').textContent = heartsScores[1];
+            document.getElementById('heartsP2Score').textContent = heartsScores[2];
+            document.getElementById('heartsP3Score').textContent = heartsScores[3];
+            const max = Math.max(...heartsScores);
+            if (max >= 100) {
+                const min = Math.min(...heartsScores);
+                const winner = heartsScores.indexOf(min);
+                playSound('tada');
+                setTimeout(() => alert('Игра окончена! Победитель: ' + HEARTS_NAMES[winner] + ' (' + min + ' очков).'), 300);
+                renderHearts(true);
+            } else {
+                renderHearts(true);
+                setTimeout(heartsNewRound, 1600);
+            }
+        }
+        function renderHearts(roundEnd) {
+            const area = document.getElementById('heartsGameArea');
+            if (!area) return;
+            let html = '';
+            html += '<div style="min-height:110px;display:flex;align-items:center;justify-content:center;gap:8px;">';
+            if (heartsTrick.length === 0) {
+                html += '<span style="color:#cfc;font-size:11px;">' + (roundEnd ? 'Раунд завершён' : 'Ход: ' + HEARTS_NAMES[heartsTurn]) + '</span>';
+            } else {
+                heartsTrick.forEach(t => {
+                    const red = t.card.suit === '♥' || t.card.suit === '♦';
+                    html += '<div style="text-align:center;"><div style="color:#cfc;font-size:9px;">' + ['Вы', 'И1', 'И2', 'И3'][t.player] + '</div>' +
+                        '<div style="display:inline-block;min-width:32px;padding:5px 3px;border:1px solid #000;border-radius:4px;background:#fff;color:' + (red ? '#c00' : '#000') + ';font-size:13px;font-weight:bold;">' + t.card.rank + t.card.suit + '</div></div>';
+                });
+            }
+            html += '</div>';
+            html += '<div style="color:#cfc;font-size:10px;text-align:center;margin-bottom:6px;">Очки в раунде — Вы: ' + heartsRoundPts[0] + ' | И1: ' + heartsRoundPts[1] + ' | И2: ' + heartsRoundPts[2] + ' | И3: ' + heartsRoundPts[3] + (heartsBroken ? ' | ♥ разбиты' : '') + '</div>';
+            const legal = (heartsTurn === 0 && !heartsBusy && heartsTrick.length < 4 && !roundEnd) ? heartsLegalMoves(0) : [];
+            const legalKey = legal.map(c => c.suit + c.rank);
+            html += '<div style="text-align:center;background:rgba(0,0,0,0.2);padding:6px;border-radius:6px;">';
+            html += '<div style="color:#fff;font-size:10px;margin-bottom:2px;">Ваши карты</div>';
+            html += '<div id="heartsPlayerHand" style="display:flex;flex-wrap:wrap;justify-content:center;">';
+            heartsHands[0].forEach((c, i) => {
+                const playable = legalKey.includes(c.suit + c.rank);
+                const red = c.suit === '♥' || c.suit === '♦';
+                html += '<div data-idx="' + i + '" class="hearts-card' + (playable ? ' playable' : '') + '" style="display:inline-block;min-width:34px;padding:6px 4px;margin:2px;border:1px solid #000;border-radius:4px;background:#fff;color:' + (red ? '#c00' : '#000') + ';text-align:center;font-size:14px;font-weight:bold;cursor:' + (playable ? 'pointer' : 'default') + ';opacity:' + (playable ? '1' : '0.55') + ';' + (playable ? 'box-shadow:0 -3px 6px rgba(0,255,65,0.5);' : '') + '">' + c.rank + c.suit + '</div>';
+            });
+            html += '</div></div>';
+            html += '<div style="text-align:center;margin-top:6px;"><button onclick="heartsNewRound()" style="padding:3px 10px;font-size:10px;">Сдать заново</button></div>';
+            area.innerHTML = html;
+            if (heartsTurn === 0 && !heartsBusy && !roundEnd) {
+                area.querySelectorAll('.hearts-card.playable').forEach(el => {
+                    el.onclick = () => {
+                        const idx = parseInt(el.getAttribute('data-idx'));
+                        const card = heartsHands[0][idx];
+                        if (!card) return;
+                        const lk = heartsLegalMoves(0).map(c => c.suit + c.rank);
+                        if (!lk.includes(card.suit + card.rank)) return;
+                        heartsPlayCard(0, card);
+                    };
+                });
+            }
+        }
+
+        // ============================================
+        // CRT EFFECT
+        // ============================================
+        function toggleCRT() {
+            const on = !document.body.classList.contains('crt-on');
+            document.body.classList.toggle('crt-on', on);
+            saveToStorage('crt_effect', on ? 'on' : 'off');
+            playSound('click');
+        }
+        function loadCRT() {
+            if (loadFromStorage('crt_effect', 'off') === 'on') document.body.classList.add('crt-on');
+        }
+
+        // ============================================
+        // CUSTOM WIN98 TOOLTIPS
+        // ============================================
+        let _tooltipTimer = null;
+        function initTooltips() {
+            const tip = document.getElementById('osTooltip');
+            if (!tip) return;
+            document.querySelectorAll('.desktop-icon').forEach(ic => {
+                const span = ic.querySelector('span');
+                if (span && !ic.hasAttribute('data-tip')) ic.setAttribute('data-tip', span.textContent.trim());
+            });
+            document.querySelectorAll('.tray-icon[title], .quick-launch-icon[title]').forEach(el => {
+                el.setAttribute('data-tip', el.getAttribute('title'));
+                el.removeAttribute('title');
+            });
+            document.addEventListener('mouseover', (e) => {
+                const el = e.target.closest('[data-tip]');
+                if (!el) return;
+                clearTimeout(_tooltipTimer);
+                _tooltipTimer = setTimeout(() => {
+                    tip.textContent = el.getAttribute('data-tip');
+                    tip.style.display = 'block';
+                    const r = el.getBoundingClientRect();
+                    let x = r.left;
+                    let y = r.bottom + 4;
+                    if (y + tip.offsetHeight + 4 > window.innerHeight) y = r.top - tip.offsetHeight - 4;
+                    if (x + tip.offsetWidth + 4 > window.innerWidth) x = window.innerWidth - tip.offsetWidth - 4;
+                    tip.style.left = Math.max(2, x) + 'px';
+                    tip.style.top = Math.max(2, y) + 'px';
+                }, 450);
+            });
+            document.addEventListener('mouseout', (e) => {
+                if (e.target.closest('[data-tip]')) { clearTimeout(_tooltipTimer); tip.style.display = 'none'; }
+            });
+            document.addEventListener('mousedown', () => { clearTimeout(_tooltipTimer); tip.style.display = 'none'; });
+        }
+
+        // ============================================
+        // TIP OF THE DAY
+        // ============================================
+        const FOREST_TIPS = [
+            'Дважды щёлкните по значку на рабочем столе, чтобы открыть программу.',
+            'Свёрнутые окна можно вернуть, щёлкнув по ним на панели задач.',
+            'Нажмите Ctrl+Alt+Del, чтобы открыть Диспетчер задач.',
+            'В терминале WolfSH введите "help", чтобы увидеть список команд.',
+            'Включите эффект ЭЛТ-монитора в «Мой компьютер» для полного погружения в 98-й.',
+            'Wolf GPT — ваш личный AI-помощник. Настройте API в config.js.',
+            'Перетаскивайте значки рабочего стола — их позиции сохраняются автоматически.',
+            'Редактор реестра (regedit) позволяет настраивать скрытые параметры системы.',
+            'Запустите Дефрагментацию диска, чтобы ускорить работу вашего виртуального ПК.',
+            'Таблица символов поможет вставить редкие символы и эмодзи.',
+            'Щёлкните по часам в трее, чтобы открыть мини-календарь.',
+            'Игры FreeCell, Tetris, Hearts и Сапёр помогут скоротать время в лесу.'
+        ];
+        let _tipIndex = 0;
+        function showTipOfDay() {
+            const box = document.getElementById('tipOfDay');
+            if (!box) return;
+            _tipIndex = Math.floor(Math.random() * FOREST_TIPS.length);
+            document.getElementById('tipText').textContent = FOREST_TIPS[_tipIndex];
+            const chk = document.getElementById('tipShowStartup');
+            if (chk) chk.checked = loadFromStorage('tips_startup', 'true') !== 'false';
+            box.style.display = 'block';
+        }
+        function nextTip() {
+            _tipIndex = (_tipIndex + 1) % FOREST_TIPS.length;
+            document.getElementById('tipText').textContent = FOREST_TIPS[_tipIndex];
+            playSound('click');
+        }
+        function closeTipOfDay() {
+            document.getElementById('tipOfDay').style.display = 'none';
+            playSound('click');
+        }
+        function toggleTipStartup(checked) {
+            saveToStorage('tips_startup', checked ? 'true' : 'false');
+        }
+        function maybeShowTipOnStartup() {
+            if (loadFromStorage('tips_startup', 'true') === 'false') return;
+            let tries = 0;
+            const poll = setInterval(() => {
+                tries++;
+                const desktop = document.getElementById('desktop');
+                if (desktop && getComputedStyle(desktop).display !== 'none') {
+                    clearInterval(poll);
+                    setTimeout(showTipOfDay, 1200);
+                } else if (tries > 120) { clearInterval(poll); }
+            }, 1000);
+        }
+
+        // ============================================
+        // BLUE SCREEN OF DEATH (easter egg)
+        // ============================================
+        let _bsodActive = false;
+        function showBSOD() {
+            const b = document.getElementById('bsod');
+            if (!b) return;
+            b.classList.add('active');
+            _bsodActive = true;
+            try { playSound('error'); } catch (e) {}
+        }
+        function hideBSOD() {
+            const b = document.getElementById('bsod');
+            if (!b) return;
+            b.classList.remove('active');
+            _bsodActive = false;
+        }
+
+        // ============================================
+        // TASK MANAGER
+        // ============================================
+        let tmSelectedId = null;
+        let tmPerfTimer = null;
+        let tmPerfData = [];
+        function taskmgrSwitchTab(tab) {
+            const map = { apps: 'tmApps', proc: 'tmProc', perf: 'tmPerf' };
+            Object.keys(map).forEach(t => {
+                const pane = document.getElementById(map[t]);
+                if (pane) pane.style.display = (t === tab) ? 'block' : 'none';
+                const tabEl = document.getElementById('tmTab' + (t === 'apps' ? 'Apps' : t === 'proc' ? 'Proc' : 'Perf'));
+                if (tabEl) tabEl.classList.toggle('active', t === tab);
+            });
+            if (tab === 'perf') startTaskmgrPerf(); else stopTaskmgrPerf();
+        }
+        function taskmgrRefresh() {
+            const appsDiv = document.getElementById('tmApps');
+            const procDiv = document.getElementById('tmProc');
+            if (!appsDiv) return;
+            appsDiv.innerHTML = '';
+            const wins = Array.from(document.querySelectorAll('.window.active')).filter(w => w.id !== 'taskmgrWindow');
+            if (wins.length === 0) {
+                appsDiv.innerHTML = '<div style="padding:12px;color:#666;font-size:11px;">Нет запущенных приложений.</div>';
+            }
+            wins.forEach(w => {
+                const titleEl = w.querySelector('.title-bar-text');
+                const name = (titleEl ? titleEl.textContent.trim() : w.id);
+                const row = document.createElement('div');
+                row.className = 'tm-row';
+                if (w.id === tmSelectedId) row.classList.add('selected');
+                const status = w.classList.contains('minimized') ? 'Свёрнуто' : 'Работает';
+                row.innerHTML = '<span>' + name + '</span><span style="opacity:.7">' + status + '</span>';
+                row.onclick = () => { tmSelectedId = w.id; taskmgrRefresh(); };
+                row.ondblclick = () => restoreWindow(w.id);
+                appsDiv.appendChild(row);
+            });
+            procDiv.innerHTML = '';
+            const procs = wins.map(w => { const t = w.querySelector('.title-bar-text'); return (t ? t.textContent.trim() : w.id); });
+            const sysProcs = ['kernel.wlf', 'wolfshell.exe', 'explorer.exe', 'systray.exe', 'mmsystem.dll', 'gdi.exe', 'nocturne.ai'];
+            const header = document.createElement('div');
+            header.style.cssText = 'display:flex;font-weight:bold;font-size:11px;background:#c0c0c0;border-bottom:1px solid #808080;position:sticky;top:0;';
+            header.innerHTML = '<div style="flex:2;padding:3px 8px;">Имя образа</div><div style="flex:1;padding:3px 8px;">ЦП</div><div style="flex:1;padding:3px 8px;">Память</div>';
+            procDiv.appendChild(header);
+            procs.concat(sysProcs).forEach(p => {
+                const row = document.createElement('div');
+                row.style.cssText = 'display:flex;font-size:11px;border-bottom:1px solid #eee;';
+                const cpu = Math.floor(Math.random() * 6);
+                const mem = (Math.floor(Math.random() * 9000) + 800);
+                row.innerHTML = '<div style="flex:2;padding:3px 8px;">' + p + '</div><div style="flex:1;padding:3px 8px;">' + String(cpu).padStart(2, '0') + '</div><div style="flex:1;padding:3px 8px;">' + mem.toLocaleString('ru-RU') + ' КБ</div>';
+                procDiv.appendChild(row);
+            });
+            const status = document.getElementById('tmStatus');
+            if (status) status.textContent = 'Процессов: ' + (procs.length + sysProcs.length) + '  |  Загрузка ЦП: ' + (Math.floor(Math.random() * 15) + 2) + '%';
+        }
+        function taskmgrEndTask() {
+            if (!tmSelectedId) { alert('Выберите задачу из списка.'); return; }
+            closeWindow(tmSelectedId);
+            tmSelectedId = null;
+            playSound('delete');
+            setTimeout(taskmgrRefresh, 50);
+        }
+        function startTaskmgrPerf() {
+            stopTaskmgrPerf();
+            const perf = document.getElementById('tmPerf');
+            if (!perf) return;
+            perf.innerHTML = '<div style="font-size:11px;margin-bottom:6px;">Загрузка ЦП</div><canvas id="tmCpuCanvas" width="380" height="120" style="border:2px inset #dfdfdf;background:#000;width:100%;"></canvas><div id="tmCpuPct" style="font-size:11px;margin-top:6px;"></div><div style="font-size:11px;margin-top:10px;">Использование памяти</div><div style="border:2px inset #dfdfdf;height:20px;margin-top:4px;"><div id="tmMemBar" style="height:100%;background:linear-gradient(to right,#0a4d3c,#1a6b52);width:40%;"></div></div>';
+            tmPerfData = new Array(60).fill(8);
+            tmPerfTimer = setInterval(() => {
+                const win = document.getElementById('taskmgrWindow');
+                if (!win || !win.classList.contains('active') || win.classList.contains('minimized')) { stopTaskmgrPerf(); return; }
+                const canvas = document.getElementById('tmCpuCanvas');
+                if (!canvas) { stopTaskmgrPerf(); return; }
+                const v = Math.min(100, Math.max(3, tmPerfData[tmPerfData.length - 1] + (Math.random() * 40 - 20)));
+                tmPerfData.push(v); tmPerfData.shift();
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#000'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.strokeStyle = '#0a3a0a';
+                for (let gx = 0; gx < canvas.width; gx += 20) { ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, canvas.height); ctx.stroke(); }
+                for (let gy = 0; gy < canvas.height; gy += 20) { ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(canvas.width, gy); ctx.stroke(); }
+                ctx.strokeStyle = '#00ff41'; ctx.lineWidth = 2; ctx.beginPath();
+                tmPerfData.forEach((d, i) => {
+                    const x = (i / (tmPerfData.length - 1)) * canvas.width;
+                    const y = canvas.height - (d / 100) * canvas.height;
+                    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                });
+                ctx.stroke();
+                const pct = document.getElementById('tmCpuPct');
+                if (pct) pct.textContent = 'Загрузка ЦП: ' + Math.round(v) + '%';
+                const mem = document.getElementById('tmMemBar');
+                if (mem) mem.style.width = (30 + Math.round(v / 3)) + '%';
+            }, 600);
+        }
+        function stopTaskmgrPerf() { if (tmPerfTimer) { clearInterval(tmPerfTimer); tmPerfTimer = null; } }
+
+        // ============================================
+        // CHARACTER MAP
+        // ============================================
+        function _charRange(start, end) {
+            const arr = [];
+            for (let c = start; c <= end; c++) arr.push(String.fromCodePoint(c));
+            return arr;
+        }
+        const CHARMAP_SETS = {
+            latin: _charRange(0x21, 0x7E),
+            cyrillic: _charRange(0x0410, 0x044F).concat(['Ё', 'ё']),
+            symbols: '©®™€£¥¢§¶†‡•…‰′″‹›«»¡¿×÷±√∞≈≠≤≥∑∏∫µΩαβγδπλ☀☁☂★☆♠♣♥♦♪♫☎✓✗→←↑↓'.split(''),
+            box: '─━│┃┄┅┌┐└┘├┤┬┴┼╋═║╔╗╚╝╠╣╦╩╬░▒▓█▀▄▌▐■□▲▼◄►'.split(''),
+            emoji: ['🐺','🌲','🌳','🍂','🦊','🦉','🌙','⭐','🔥','💧','⚡','❄️','😀','😎','🤖','👍','🎮','💾','📁','📂','🖥️','💻','⌨️','🖱️','📀','💿','🔒','🔑','⚙️','🛠️','📡','🌐']
+        };
+        function renderCharmap() {
+            const grid = document.getElementById('charmapGrid');
+            if (!grid) return;
+            const set = document.getElementById('charmapSet').value;
+            grid.innerHTML = '';
+            (CHARMAP_SETS[set] || []).forEach(ch => {
+                if (!ch || ch === ' ') return;
+                const cell = document.createElement('div');
+                cell.className = 'charmap-cell';
+                cell.textContent = ch;
+                try { cell.title = 'U+' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4, '0'); } catch (e) {}
+                cell.onclick = () => {
+                    const buf = document.getElementById('charmapBuffer');
+                    buf.value += ch;
+                    playSound('tick');
+                };
+                grid.appendChild(cell);
+            });
+        }
+        function charmapCopy() {
+            const buf = document.getElementById('charmapBuffer');
+            if (!buf.value) { playSound('error'); return; }
+            buf.select();
+            let ok = false;
+            try { ok = document.execCommand('copy'); } catch (e) {}
+            if (navigator.clipboard) { navigator.clipboard.writeText(buf.value).catch(() => {}); ok = true; }
+            playSound(ok ? 'save' : 'error');
+            if (ok) {
+                const old = buf.style.background;
+                buf.style.background = '#cfc';
+                setTimeout(() => { buf.style.background = old; }, 300);
+            }
+        }
+
+        // ============================================
+        // REGISTRY EDITOR (regedit)
+        // ============================================
+        function regeditDefault() {
+            return {
+                HKEY_CURRENT_USER: {
+                    values: {}, children: {
+                        Software: { values: {}, children: { 'Forest OS': { values: { Username: (typeof currentUser !== 'undefined' ? currentUser : 'Guest'), Version: '2.0', Edition: 'Community' }, children: {} } } },
+                        'Control Panel': { values: {}, children: { Desktop: { values: { Wallpaper: loadFromStorage('background_color', 'teal'), ScreenSaveTimeOut: '600' }, children: {} } } }
+                    }
+                },
+                HKEY_LOCAL_MACHINE: {
+                    values: {}, children: {
+                        SOFTWARE: { values: {}, children: { Microsoft: { values: {}, children: { Windows: { values: { CurrentVersion: '4.10.1998', ProductName: 'Forest OS 98' }, children: {} } } } } },
+                        HARDWARE: { values: { ProcessorType: 'WolfCore 666 MHz', Memory: '64 MB' }, children: {} }
+                    }
+                },
+                HKEY_CLASSES_ROOT: {
+                    values: {}, children: { '.txt': { values: { '(По умолчанию)': 'txtfile' }, children: {} }, '.wlf': { values: { '(По умолчанию)': 'Forest.Document' }, children: {} } }
+                }
+            };
+        }
+        let registryData = null;
+        let regeditSelectedPath = [];
+        function regeditInit() {
+            registryData = loadFromStorage('forest_registry', null);
+            if (!registryData || typeof registryData !== 'object') {
+                registryData = regeditDefault();
+                saveToStorage('forest_registry', registryData);
+            }
+            regeditSelectedPath = [];
+            regeditRefresh();
+        }
+        function regeditNodeAt(path) {
+            let node = { children: registryData, values: {} };
+            for (const seg of path) {
+                if (!node.children || !node.children[seg]) return null;
+                node = node.children[seg];
+            }
+            return node;
+        }
+        function regeditRefresh() {
+            const tree = document.getElementById('regeditTree');
+            if (!tree) return;
+            tree.innerHTML = '';
+            const rootLabel = document.createElement('div');
+            rootLabel.className = 'reg-key';
+            rootLabel.textContent = '💻 Компьютер';
+            rootLabel.style.fontWeight = 'bold';
+            rootLabel.onclick = () => { regeditSelectedPath = []; regeditRefresh(); };
+            tree.appendChild(rootLabel);
+            const build = (obj, path, depth) => {
+                Object.keys(obj).forEach(key => {
+                    const node = obj[key];
+                    const div = document.createElement('div');
+                    div.className = 'reg-key';
+                    const here = path.concat(key);
+                    const hasChildren = node.children && Object.keys(node.children).length > 0;
+                    div.textContent = (hasChildren ? '📂 ' : '📁 ') + key;
+                    div.style.paddingLeft = (8 + depth * 14) + 'px';
+                    if (here.join('/') === regeditSelectedPath.join('/')) div.classList.add('selected');
+                    div.onclick = (e) => { e.stopPropagation(); regeditSelectedPath = here; regeditRefresh(); };
+                    tree.appendChild(div);
+                    if (node.children) build(node.children, here, depth + 1);
+                });
+            };
+            build(registryData, [], 1);
+            const valuesDiv = document.getElementById('regeditValues');
+            valuesDiv.innerHTML = '';
+            const sel = regeditNodeAt(regeditSelectedPath);
+            const vals = (sel && sel.values) ? sel.values : {};
+            if (Object.keys(vals).length === 0) {
+                valuesDiv.innerHTML = '<div style="padding:8px;color:#666;font-size:11px;">(параметры отсутствуют)</div>';
+            }
+            Object.keys(vals).forEach(name => {
+                const row = document.createElement('div');
+                row.className = 'reg-value-row';
+                row.innerHTML = '<div style="flex:1;">🔤 ' + name + '</div><div style="flex:1;">"' + vals[name] + '"</div>';
+                row.ondblclick = () => regeditEditValue(name);
+                row.oncontextmenu = (e) => {
+                    e.preventDefault();
+                    showContextMenu(e, [
+                        { text: 'Изменить', action: () => regeditEditValue(name) },
+                        { text: 'Удалить', action: () => regeditDeleteValue(name) }
+                    ]);
+                };
+                valuesDiv.appendChild(row);
+            });
+            document.getElementById('regeditPath').textContent = 'Компьютер' + (regeditSelectedPath.length ? '\\' + regeditSelectedPath.join('\\') : '');
+        }
+        function regeditEditValue(name) {
+            const sel = regeditNodeAt(regeditSelectedPath);
+            if (!sel) return;
+            const val = prompt('Значение параметра "' + name + '":', sel.values[name]);
+            if (val === null) return;
+            sel.values[name] = val;
+            saveToStorage('forest_registry', registryData);
+            regeditRefresh();
+            playSound('save');
+        }
+        function regeditDeleteValue(name) {
+            const sel = regeditNodeAt(regeditSelectedPath);
+            if (!sel || !confirm('Удалить параметр "' + name + '"?')) return;
+            delete sel.values[name];
+            saveToStorage('forest_registry', registryData);
+            regeditRefresh();
+            playSound('delete');
+        }
+        function regeditAddValue() {
+            const sel = regeditNodeAt(regeditSelectedPath);
+            if (!sel) { alert('Выберите раздел реестра.'); return; }
+            if (regeditSelectedPath.length === 0) { alert('Нельзя добавить параметр в корень. Выберите раздел.'); return; }
+            const name = prompt('Имя нового параметра:');
+            if (!name) return;
+            if (!sel.values) sel.values = {};
+            sel.values[name] = prompt('Значение:', '') || '';
+            saveToStorage('forest_registry', registryData);
+            regeditRefresh();
+            playSound('save');
+        }
+
+        // ============================================
+        // SOUND RECORDER
+        // ============================================
+        let soundrecRecorder = null;
+        let soundrecChunks = [];
+        let soundrecStream = null;
+        let soundrecBlobUrl = null;
+        let soundrecTimer = null;
+        let soundrecStart = 0;
+        let soundrecAnalyser = null;
+        let soundrecRAF = null;
+        function soundrecInit() {
+            const canvas = document.getElementById('soundrecCanvas');
+            if (canvas) { const ctx = canvas.getContext('2d'); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, canvas.width, canvas.height); }
+            const t = document.getElementById('soundrecTime');
+            if (t) t.textContent = '00:00.0';
+        }
+        async function soundrecToggleRecord() {
+            const btn = document.getElementById('soundrecRecBtn');
+            const status = document.getElementById('soundrecStatus');
+            if (soundrecRecorder && soundrecRecorder.state === 'recording') { soundrecRecorder.stop(); return; }
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || typeof MediaRecorder === 'undefined') {
+                status.textContent = 'Запись недоступна в этом браузере.';
+                playSound('error');
+                return;
+            }
+            try {
+                soundrecStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            } catch (e) {
+                status.textContent = 'Доступ к микрофону запрещён.';
+                playSound('error');
+                return;
+            }
+            soundrecChunks = [];
+            soundrecRecorder = new MediaRecorder(soundrecStream);
+            soundrecRecorder.ondataavailable = (e) => { if (e.data.size > 0) soundrecChunks.push(e.data); };
+            soundrecRecorder.onstop = () => {
+                if (soundrecBlobUrl) URL.revokeObjectURL(soundrecBlobUrl);
+                const blob = new Blob(soundrecChunks, { type: 'audio/webm' });
+                soundrecBlobUrl = URL.createObjectURL(blob);
+                document.getElementById('soundrecPlayBtn').disabled = false;
+                document.getElementById('soundrecSaveBtn').disabled = false;
+                btn.textContent = '● Запись';
+                status.textContent = 'Запись готова. Длительность: ' + document.getElementById('soundrecTime').textContent;
+                clearInterval(soundrecTimer);
+                if (soundrecRAF) cancelAnimationFrame(soundrecRAF);
+                if (soundrecStream) soundrecStream.getTracks().forEach(t => t.stop());
+            };
+            try {
+                const ac = _getSoundContext();
+                const src = ac.createMediaStreamSource(soundrecStream);
+                soundrecAnalyser = ac.createAnalyser();
+                soundrecAnalyser.fftSize = 256;
+                src.connect(soundrecAnalyser);
+                soundrecDrawWave();
+            } catch (e) {}
+            soundrecRecorder.start();
+            soundrecStart = Date.now();
+            btn.textContent = '⏹ Стоп';
+            status.textContent = 'Идёт запись...';
+            soundrecTimer = setInterval(() => {
+                const el = (Date.now() - soundrecStart) / 1000;
+                const mm = String(Math.floor(el / 60)).padStart(2, '0');
+                const ss = String(Math.floor(el % 60)).padStart(2, '0');
+                const t = String(Math.floor((el * 10) % 10));
+                document.getElementById('soundrecTime').textContent = mm + ':' + ss + '.' + t;
+            }, 100);
+        }
+        function soundrecDrawWave() {
+            const canvas = document.getElementById('soundrecCanvas');
+            if (!canvas || !soundrecAnalyser) return;
+            const ctx = canvas.getContext('2d');
+            const buf = new Uint8Array(soundrecAnalyser.frequencyBinCount);
+            const draw = () => {
+                if (!soundrecRecorder || soundrecRecorder.state !== 'recording') return;
+                soundrecRAF = requestAnimationFrame(draw);
+                soundrecAnalyser.getByteTimeDomainData(buf);
+                ctx.fillStyle = '#000';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#00ff41';
+                ctx.beginPath();
+                const slice = canvas.width / buf.length;
+                let x = 0;
+                for (let i = 0; i < buf.length; i++) {
+                    const y = (buf[i] / 128) * (canvas.height / 2);
+                    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                    x += slice;
+                }
+                ctx.stroke();
+            };
+            draw();
+        }
+        function soundrecPlay() {
+            if (!soundrecBlobUrl) return;
+            const audio = new Audio(soundrecBlobUrl);
+            audio.play();
+            const status = document.getElementById('soundrecStatus');
+            status.textContent = 'Воспроизведение...';
+            audio.onended = () => { status.textContent = 'Готов к записи'; };
+        }
+        function soundrecSave() {
+            if (!soundrecBlobUrl) return;
+            const a = document.createElement('a');
+            a.href = soundrecBlobUrl;
+            a.download = 'recording_' + new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-') + '.webm';
+            a.click();
+            playSound('save');
+        }
+
+        // ============================================
+        // DISK DEFRAGMENTER
+        // ============================================
+        const DEFRAG_COLS = 40;
+        const DEFRAG_ROWS = 14;
+        let defragBlocks = [];
+        let defragTimer = null;
+        function defragInit() {
+            const grid = document.getElementById('defragGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            defragBlocks = [];
+            const total = DEFRAG_COLS * DEFRAG_ROWS;
+            for (let i = 0; i < total; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'defrag-block';
+                let state;
+                const r = Math.random();
+                if (r < 0.45) state = 'used';
+                else if (r < 0.62) state = 'frag';
+                else state = 'free';
+                defragBlocks.push(state);
+                paintDefragBlock(cell, state);
+                grid.appendChild(cell);
+            }
+            document.getElementById('defragProgress').style.width = '0';
+            document.getElementById('defragStatus').textContent = 'Готов к запуску.';
+        }
+        function paintDefragBlock(cell, state) {
+            cell.style.background = state === 'used' ? '#1a6b52' : state === 'frag' ? '#7fc8b0' : '#fff';
+            cell.style.outline = state === 'free' ? '1px solid #e0e0e0' : 'none';
+        }
+        function defragHasGap() {
+            const firstFree = defragBlocks.indexOf('free');
+            if (firstFree === -1) return false;
+            for (let j = firstFree + 1; j < defragBlocks.length; j++) if (defragBlocks[j] !== 'free') return true;
+            return false;
+        }
+        function defragStart() {
+            if (defragTimer) return;
+            const grid = document.getElementById('defragGrid');
+            const cells = grid.children;
+            const totalToPack = defragBlocks.filter(b => b !== 'free').length;
+            // Process several blocks per tick so a full pass takes a few seconds, not 20+
+            const perTick = Math.max(3, Math.round(defragBlocks.length / 80));
+            document.getElementById('defragStatus').textContent = 'Дефрагментация диска ' + document.getElementById('defragDrive').value + ':...';
+            defragTimer = setInterval(() => {
+                let anyMoved = false;
+                for (let step = 0; step < perTick; step++) {
+                    let moved = false;
+                    const firstFree = defragBlocks.indexOf('free');
+                    if (firstFree !== -1) {
+                        for (let j = firstFree + 1; j < defragBlocks.length; j++) {
+                            if (defragBlocks[j] !== 'free') {
+                                defragBlocks[firstFree] = (defragBlocks[j] === 'frag') ? 'used' : defragBlocks[j];
+                                defragBlocks[j] = 'free';
+                                paintDefragBlock(cells[firstFree], defragBlocks[firstFree]);
+                                paintDefragBlock(cells[j], 'free');
+                                cells[firstFree].style.outline = '2px solid #ff0000';
+                                setTimeout(((idx) => () => { if (cells[idx]) cells[idx].style.outline = 'none'; })(firstFree), 180);
+                                moved = true;
+                                break;
+                            }
+                        }
+                    }
+                    const fragLeft = defragBlocks.indexOf('frag');
+                    if (!moved && fragLeft !== -1) {
+                        defragBlocks[fragLeft] = 'used';
+                        paintDefragBlock(cells[fragLeft], 'used');
+                        moved = true;
+                    }
+                    if (moved) anyMoved = true; else break;
+                }
+                const packed = defragBlocks.slice(0, totalToPack).filter(b => b === 'used').length;
+                const pct = totalToPack > 0 ? Math.round((packed / totalToPack) * 100) : 100;
+                document.getElementById('defragProgress').style.width = pct + '%';
+                const done = (defragBlocks.indexOf('frag') === -1 && !defragHasGap()) || !anyMoved;
+                if (done) {
+                    clearInterval(defragTimer);
+                    defragTimer = null;
+                    document.getElementById('defragProgress').style.width = '100%';
+                    document.getElementById('defragStatus').textContent = 'Дефрагментация завершена.';
+                    playSound('tada');
+                }
+            }, 70);
+        }
+        function defragStop() {
+            if (defragTimer) { clearInterval(defragTimer); defragTimer = null; document.getElementById('defragStatus').textContent = 'Остановлено пользователем.'; }
+        }
+
+        // ============================================
+        // DRIVE PROPERTIES
+        // ============================================
+        function showDriveProperties(letter) {
+            const drives = {
+                'C': { label: 'Локальный диск', fs: 'WolfFS', total: 2147483648, used: 1395864371 },
+                'D': { label: 'CD-ROM', fs: 'CDFS', total: 681574400, used: 681574400 }
+            };
+            const d = drives[letter] || drives['C'];
+            const free = d.total - d.used;
+            const usedPct = Math.round((d.used / d.total) * 100);
+            const fmt = (b) => (b / 1073741824).toFixed(2) + ' ГБ (' + b.toLocaleString('ru-RU') + ' байт)';
+            const body = document.getElementById('drivePropertiesBody');
+            body.innerHTML =
+                '<div style="text-align:center;margin-bottom:12px;font-weight:bold;font-size:13px;">' + d.label + ' (' + letter + ':)</div>' +
+                '<div style="display:flex;gap:16px;align-items:center;">' +
+                '<div class="drive-pie" style="background:conic-gradient(#000080 0% ' + usedPct + '%, #c0c0c0 ' + usedPct + '% 100%);"></div>' +
+                '<div style="font-size:11px;line-height:1.9;">' +
+                '<div><span style="display:inline-block;width:12px;height:12px;background:#000080;"></span> Занято: ' + fmt(d.used) + '</div>' +
+                '<div><span style="display:inline-block;width:12px;height:12px;background:#c0c0c0;border:1px solid #808080;"></span> Свободно: ' + fmt(free) + '</div>' +
+                '<hr style="margin:6px 0;"><div><strong>Ёмкость:</strong> ' + fmt(d.total) + '</div>' +
+                '<div><strong>Файловая система:</strong> ' + d.fs + '</div>' +
+                '</div></div>' +
+                '<hr style="margin:12px 0;"><div style="text-align:center;"><button onclick="openWindow(\'defragWindow\')" style="padding:4px 12px;font-size:11px;">Дефрагментация...</button></div>';
+            openWindow('drivePropertiesWindow');
+        }
+
+        // ============================================
+        // ENHANCEMENT INIT & GLOBAL HANDLERS
+        // ============================================
+        function initEnhancements() {
+            loadCRT();
+            initTooltips();
+            updateRecycleIcon();
+            const clock = document.getElementById('clock');
+            if (clock) { clock.style.cursor = 'pointer'; clock.addEventListener('click', toggleClockPopup); }
+            document.addEventListener('mousedown', (e) => {
+                const vp = document.getElementById('volumePopup');
+                const cp = document.getElementById('clockPopup');
+                if (vp && vp.classList.contains('active') && !vp.contains(e.target) && !e.target.closest('#trayVolume')) vp.classList.remove('active');
+                if (cp && cp.classList.contains('active') && !cp.contains(e.target) && !e.target.closest('#clock')) cp.classList.remove('active');
+            });
+            const recycleIcon = document.querySelector('.desktop-icon[data-app="recyclebin"]');
+            if (recycleIcon) {
+                recycleIcon.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    showContextMenu(e, [
+                        { text: 'Открыть', icon: '📂', action: () => openWindow('recyclebinWindow') },
+                        { text: 'Очистить корзину', icon: '🗑', action: () => emptyRecycleBin() }
+                    ]);
+                });
+            }
+            document.addEventListener('keydown', (e) => {
+                if (_bsodActive) { e.preventDefault(); hideBSOD(); return; }
+                if (e.ctrlKey && e.altKey && (e.key === 'Delete' || e.key === 'Del')) { e.preventDefault(); openWindow('taskmgrWindow'); return; }
+                if (e.ctrlKey && e.altKey && e.key === 'Backspace') { e.preventDefault(); showBSOD(); return; }
+            });
+            maybeShowTipOnStartup();
+        }
+
         // Init
         currentUser = getUsername();
         
@@ -8987,6 +10743,7 @@ Visit example.org for more info!</textarea>
         loadBackground();
         loadWindowPositions();
         initScreensaver();
+        initEnhancements();
     </script>
 </body>
 </html>

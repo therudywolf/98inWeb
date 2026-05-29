@@ -10,9 +10,11 @@ AGPL v3 Copyleft applies to reuse, modification, and network deployment of deriv
 
 ## Features
 
-- Desktop shell with draggable windows, taskbar, start menu, quick launch, system tray, context menus, and a Run dialog.
-- Games: FreeCell, Tetris, Minesweeper, Pinball, Snake, Hearts, and Solitaire-style card experiences.
+- Desktop shell with draggable windows, taskbar (with minimize/restore), start menu, quick launch, system tray, context menus, and a Run dialog.
+- Games: FreeCell, Tetris, Minesweeper, Pinball, Snake, fully playable Hearts (vs. 3 AI opponents), and Solitaire-style card experiences.
 - Utilities: Paint, calculator, terminal, file manager, code editor, crypto toolkit, regex tester, network tools, system monitor, and control panel.
+- System tools: Task Manager (apps/processes/live performance graph, opens on `Ctrl+Alt+Del`), Registry Editor, Character Map, Sound Recorder, Disk Defragmenter, Drive Properties, and a functional Recycle Bin.
+- Authenticity touches: Win98 sound scheme, "safe to turn off" shutdown screen, Blue Screen of Death easter egg (`Ctrl+Alt+Backspace`), optional CRT scanline overlay, Tip of the Day, retro tooltips and scrollbars, and tray volume/calendar popups.
 - Optional Wolf GPT chat window using a locally supplied OpenAI-compatible API endpoint.
 - Browser-local persistence through `localStorage` and cookies.
 

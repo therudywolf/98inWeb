@@ -15,6 +15,7 @@ desktop.ini
 .vscode/
 .idea/
 .cursor/
+.claude/
 *.swp
 *.swo
 *~
