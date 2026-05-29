@@ -3395,6 +3395,9 @@ Visit example.org for more info!</textarea>
         // This allows keeping sensitive API URLs out of version control
         const API_BASE_URL = (window.FOREST_CONFIG && window.FOREST_CONFIG.API_BASE_URL) || '';
         const MODEL_NAME = (window.FOREST_CONFIG && window.FOREST_CONFIG.MODEL_NAME) || 'qwen/qwen3-vl-4b';
+        // Optional bearer token for the chat endpoint. Supplied at runtime via
+        // config.js (which is gitignored) — never hard-coded in tracked source.
+        const API_KEY = (window.FOREST_CONFIG && window.FOREST_CONFIG.API_KEY) || '';
 
         // System prompt for Wolf GPT (Nocturne AI assistant)
         // Defines the personality and behavior of the AI assistant
@@ -4889,11 +4892,11 @@ Visit example.org for more info!</textarea>
                     ...wolfConversation
                 ];
 
+                const _headers = { 'Content-Type': 'application/json' };
+                if (API_KEY) _headers['Authorization'] = 'Bearer ' + API_KEY;
                 const response = await fetch(API_BASE_URL + '/v1/chat/completions', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: _headers,
                     body: JSON.stringify({
                         model: MODEL_NAME,
                         messages: messages,
@@ -6688,22 +6691,38 @@ Visit example.org for more info!</textarea>
         let userIP = 'Not fetched';
         let userSystem = 'Loading...';
 
+        // Original Forest OS ambient tracks. Each note: [freq, beats] where 0 = rest.
+        // `bass` plays one note per bar under the melody. Composed in-house — no
+        // third-party soundtrack covers. Rendered by a soft polyphonic synth below.
+        const NOTE = { C3:130.81,D3:146.83,E3:164.81,F3:174.61,G3:196.00,A3:220.00,B3:246.94,
+                       C4:261.63,D4:293.66,E4:329.63,F4:349.23,G4:392.00,A4:440.00,B4:493.88,
+                       C5:523.25,D5:587.33,E5:659.25,F5:698.46,G5:783.99,A5:880.00, R:0 };
+        const N = NOTE;
         const retrotracks = [
-            { name: '🎮 Aria Math (C418 Cover)', pattern: [329.63, 392, 329.63, 392, 493.88, 392, 329.63, 392, 261.63, 293.66, 329.63, 392], tempo: 140, wave: 'triangle' },
-            { name: '🌲 Sweden (C418 Cover)', pattern: [261.63, 293.66, 329.63, 293.66, 246.94, 293.66, 329.63, 293.66, 261.63, 246.94, 220], tempo: 90, wave: 'sine' },
-            { name: '⚡ Wet Hands (C418 Cover)', pattern: [293.66, 329.63, 392, 440, 392, 329.63, 293.66, 261.63, 246.94, 220], tempo: 110, wave: 'triangle' },
-            { name: '🐺 Dog (C418 Cover)', pattern: [220, 246.94, 261.63, 293.66, 261.63, 220, 246.94, 220, 196, 174.61], tempo: 125, wave: 'square' },
-            { name: '🌙 Subwoofer Lullaby (C418 Cover)', pattern: [196, 220, 246.94, 261.63, 246.94, 220, 196, 174.61, 164.81], tempo: 85, wave: 'sine' },
-            { name: '🎵 Mice on Venus (C418 Cover)', pattern: [349.23, 392, 440, 493.88, 440, 392, 349.23, 329.63, 293.66], tempo: 100, wave: 'triangle' },
-            { name: '🔥 Haggstrom (C418 Cover)', pattern: [293.66, 329.63, 369.99, 392, 369.99, 329.63, 293.66, 261.63, 246.94], tempo: 120, wave: 'square' },
-            { name: '🌿 Living Mice (C418 Cover)', pattern: [261.63, 293.66, 329.63, 349.23, 392, 349.23, 329.63, 293.66], tempo: 95, wave: 'sine' },
-            { name: '🌊 Moog City (C418 Cover)', pattern: [220, 246.94, 261.63, 293.66, 329.63, 293.66, 261.63, 246.94], tempo: 105, wave: 'triangle' },
-            { name: '🌙 Moog City 2 (C418 Cover)', pattern: [196, 220, 246.94, 261.63, 293.66, 261.63, 246.94, 220], tempo: 88, wave: 'sine' },
-            { name: '🎭 Beginning (C418 Cover)', pattern: [174.61, 196, 220, 246.94, 261.63, 246.94, 220, 196], tempo: 92, wave: 'triangle' },
-            { name: '🌌 Alpha (C418 Cover)', pattern: [329.63, 369.99, 392, 440, 493.88, 440, 392, 369.99], tempo: 115, wave: 'sine' },
-            { name: '🌙 Blind Spots (C418 Cover)', pattern: [261.63, 293.66, 329.63, 349.23, 392, 349.23, 329.63, 293.66], tempo: 98, wave: 'triangle' },
-            { name: '🌊 Clark (C418 Cover)', pattern: [220, 246.94, 261.63, 293.66, 329.63, 293.66, 261.63, 246.94], tempo: 108, wave: 'square' },
-            { name: '🎮 Danny (C418 Cover)', pattern: [196, 220, 246.94, 261.63, 293.66, 261.63, 246.94, 220], tempo: 87, wave: 'sine' }
+            { name: '🌲 Evergreen', tempo: 96, wave: 'triangle',
+              melody: [[N.E4,1],[N.G4,1],[N.A4,1],[N.B4,1],[N.A4,1],[N.G4,1],[N.E4,2],[N.D4,1],[N.E4,1],[N.G4,2],[N.A4,2],[N.R,1],[N.G4,1],[N.E4,1],[N.D4,1],[N.C4,2],[N.R,2]],
+              bass:   [N.A2||110,N.E3,N.C3,N.G3,N.A3,N.E3,N.C3,N.D3] },
+            { name: '🌙 Moonlit Glade', tempo: 72, wave: 'sine',
+              melody: [[N.A3,2],[N.C4,1],[N.E4,1],[N.D4,2],[N.C4,1],[N.A3,1],[N.G3,2],[N.A3,2],[N.E4,2],[N.D4,1],[N.C4,1],[N.B3,2],[N.A3,2],[N.R,2]],
+              bass:   [N.A3,N.F3,N.G3,N.A3,N.A3,N.F3,N.E3,N.A3] },
+            { name: '🐺 Lone Wolf', tempo: 84, wave: 'triangle',
+              melody: [[N.D4,1],[N.F4,1],[N.A4,2],[N.G4,1],[N.F4,1],[N.E4,2],[N.D4,1],[N.E4,1],[N.F4,1],[N.D4,1],[N.A3,2],[N.D4,2],[N.R,2]],
+              bass:   [N.D3,N.A3,N.B3,N.A3,N.D3,N.F3,N.A3,N.D3] },
+            { name: '⚡ Cyber Forest', tempo: 120, wave: 'sawtooth',
+              melody: [[N.E4,1],[N.E4,1],[N.G4,1],[N.B4,1],[N.A4,1],[N.G4,1],[N.E4,1],[N.D4,1],[N.E4,1],[N.B4,1],[N.A4,1],[N.G4,1],[N.E4,2],[N.R,1]],
+              bass:   [N.E3,N.E3,N.A3,N.B3,N.E3,N.G3,N.A3,N.E3] },
+            { name: '🌊 Tide Pools', tempo: 68, wave: 'sine',
+              melody: [[N.G4,2],[N.A4,1],[N.B4,1],[N.D5,2],[N.B4,1],[N.A4,1],[N.G4,2],[N.E4,2],[N.D4,2],[N.E4,1],[N.G4,1],[N.A4,2],[N.R,2]],
+              bass:   [N.G3,N.D3,N.E3,N.C3,N.G3,N.D3,N.C3,N.G3] },
+            { name: '🔥 Embers', tempo: 104, wave: 'triangle',
+              melody: [[N.C4,1],[N.E4,1],[N.G4,1],[N.C5,1],[N.B4,1],[N.G4,1],[N.E4,1],[N.C4,1],[N.D4,1],[N.F4,1],[N.A4,2],[N.G4,2],[N.R,2]],
+              bass:   [N.C3,N.G3,N.A3,N.F3,N.C3,N.E3,N.F3,N.G3] },
+            { name: '🌌 Aurora', tempo: 88, wave: 'sine',
+              melody: [[N.F4,2],[N.G4,1],[N.A4,1],[N.C5,2],[N.A4,1],[N.G4,1],[N.F4,2],[N.E4,2],[N.D4,1],[N.E4,1],[N.F4,2],[N.R,2]],
+              bass:   [N.F3,N.C3,N.D3,N.A3,N.F3,N.C3,N.D3,N.F3] },
+            { name: '🍂 Autumn Trail', tempo: 100, wave: 'triangle',
+              melody: [[N.A4,1],[N.G4,1],[N.F4,1],[N.E4,1],[N.F4,1],[N.G4,1],[N.A4,2],[N.G4,1],[N.E4,1],[N.D4,1],[N.C4,1],[N.D4,2],[N.R,2]],
+              bass:   [N.F3,N.C3,N.D3,N.A3,N.F3,N.G3,N.C3,N.D3] }
         ];
 
         function initPlayer() {
@@ -6740,53 +6759,119 @@ Visit example.org for more info!</textarea>
             }
         }
 
+        // Master chain for music: a shared gain + lowpass filter so the synth
+        // sounds warm instead of a harsh raw oscillator. Built lazily.
+        let musicMaster = null, musicFilter = null;
+        let musicScheduleTimer = null;
+        let musicVoices = [];
+        function ensureMusicChain() {
+            if (musicMaster) return;
+            musicMaster = audioContext.createGain();
+            musicFilter = audioContext.createBiquadFilter();
+            musicFilter.type = 'lowpass';
+            musicFilter.frequency.value = 2200;
+            musicFilter.Q.value = 0.7;
+            musicMaster.connect(musicFilter);
+            musicFilter.connect(analyser);
+            analyser.connect(audioContext.destination);
+        }
+
+        // Play a single note with a soft ADSR envelope (no clicks).
+        function playMusicNote(freq, startAt, dur, wave, peak) {
+            if (!freq) return; // rest
+            const osc = audioContext.createOscillator();
+            const g = audioContext.createGain();
+            osc.type = wave || 'triangle';
+            osc.frequency.value = freq;
+            osc.connect(g);
+            g.connect(musicMaster);
+            const a = 0.02, r = Math.min(0.25, dur * 0.4);
+            g.gain.setValueAtTime(0.0001, startAt);
+            g.gain.exponentialRampToValueAtTime(peak, startAt + a);
+            g.gain.setValueAtTime(peak, startAt + Math.max(a, dur - r));
+            g.gain.exponentialRampToValueAtTime(0.0001, startAt + dur);
+            osc.start(startAt);
+            osc.stop(startAt + dur + 0.05);
+            musicVoices.push(osc);
+            osc.onended = () => { const i = musicVoices.indexOf(osc); if (i >= 0) musicVoices.splice(i, 1); };
+        }
+
+        function stopAllVoices() {
+            musicVoices.forEach(o => { try { o.stop(); } catch (e) {} });
+            musicVoices = [];
+            if (musicScheduleTimer) { clearTimeout(musicScheduleTimer); musicScheduleTimer = null; }
+        }
+
         function playMusic() {
             if (isPlaying) return;
-            
+            ensureMusicChain();
             const track = retrotracks[currentTrackIndex];
             document.getElementById('trackName').textContent = `▶ ${track.name}`;
             document.getElementById('playPauseBtn').textContent = '⏸';
-            
             isPlaying = true;
             trackStartTime = Date.now();
-            
-            playRetroMelody(track.pattern, track.tempo, track.wave);
+            musicMaster.gain.setValueAtTime(1, audioContext.currentTime);
+            scheduleTrack(track);
             startVisualizer();
             startProgressUpdate();
-            
             playSound('click');
+        }
+
+        // Schedule one full pass of the track (melody + bass), then loop.
+        function scheduleTrack(track) {
+            const vol = (parseInt(document.getElementById('volumeControl').value) || 60) / 100;
+            const beat = 60 / track.tempo;
+            const t0 = audioContext.currentTime + 0.08;
+            let t = t0;
+            let bar = 0, beatsInBar = 0;
+            track.melody.forEach(([freq, beats]) => {
+                const dur = beats * beat;
+                playMusicNote(freq, t, dur * 0.95, track.wave, 0.18 * vol);
+                // bass: one note at the start of every 2 beats
+                if (beatsInBar === 0 && track.bass && track.bass.length) {
+                    const bf = track.bass[bar % track.bass.length];
+                    playMusicNote(bf, t, beat * 1.8, 'sine', 0.22 * vol);
+                    bar++;
+                }
+                beatsInBar += beats;
+                if (beatsInBar >= 2) beatsInBar = 0;
+                t += dur;
+            });
+            const loopMs = (t - t0) * 1000;
+            musicScheduleTimer = setTimeout(() => { if (isPlaying) scheduleTrack(track); }, Math.max(500, loopMs));
         }
 
         function pauseMusic() {
             document.getElementById('playPauseBtn').textContent = '▶';
             document.getElementById('trackName').textContent = `⏸ ${retrotracks[currentTrackIndex].name}`;
-            
-            if (currentOscillator) {
-                currentOscillator.stop();
-                currentOscillator = null;
+            if (musicMaster) {
+                const now = audioContext.currentTime;
+                musicMaster.gain.cancelScheduledValues(now);
+                musicMaster.gain.setValueAtTime(musicMaster.gain.value, now);
+                musicMaster.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
             }
-            
+            stopAllVoices();
             isPlaying = false;
             stopVisualizer();
             stopProgressUpdate();
         }
 
         function stopMusic() {
-            if (currentOscillator) {
-                currentOscillator.stop();
-                currentOscillator = null;
+            if (musicMaster) {
+                const now = audioContext.currentTime;
+                musicMaster.gain.cancelScheduledValues(now);
+                musicMaster.gain.setValueAtTime(musicMaster.gain.value, now);
+                musicMaster.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
             }
-            
+            stopAllVoices();
             isPlaying = false;
             document.getElementById('playPauseBtn').textContent = '▶';
             document.getElementById('trackName').textContent = retrotracks[currentTrackIndex].name;
             document.getElementById('progressBar').value = 0;
             document.getElementById('timeDisplay').textContent = '0:00 / 0:00';
-            
             stopVisualizer();
             stopProgressUpdate();
             clearVisualizer();
-            
             playSound('click');
         }
 
@@ -6810,46 +6895,8 @@ Visit example.org for more info!</textarea>
             playSound('click');
         }
 
-        function playRetroMelody(pattern, tempo, waveType) {
-            const beatDuration = 60 / tempo;
-            let noteIndex = 0;
-            
-            function playNote() {
-                if (!isPlaying) return;
-                
-                const volume = parseInt(document.getElementById('volumeControl').value) / 100;
-                
-                if (currentOscillator) {
-                    currentOscillator.stop();
-                }
-                
-                currentOscillator = audioContext.createOscillator();
-                currentGain = audioContext.createGain();
-                
-                currentOscillator.connect(currentGain);
-                currentGain.connect(analyser);
-                analyser.connect(audioContext.destination);
-                
-                currentOscillator.type = waveType || 'triangle';
-                currentOscillator.frequency.value = pattern[noteIndex % pattern.length];
-                
-                currentGain.gain.setValueAtTime(volume * 0.25, audioContext.currentTime);
-                currentGain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + beatDuration * 0.8);
-                
-                currentOscillator.start();
-                currentOscillator.stop(audioContext.currentTime + beatDuration);
-                
-                noteIndex++;
-                
-                if (Date.now() - trackStartTime < trackDuration * 1000) {
-                    setTimeout(playNote, beatDuration * 1000);
-                } else {
-                    nextTrack();
-                }
-            }
-            
-            playNote();
-        }
+        // (Legacy monophonic playRetroMelody removed — replaced by the
+        //  polyphonic scheduleTrack/playMusicNote engine above.)
 
         function startVisualizer() {
             const canvas = document.getElementById('visualizer');
@@ -6915,24 +6962,16 @@ Visit example.org for more info!</textarea>
         }
 
         function startProgressUpdate() {
+            // Tracks loop, so show elapsed time with an animated bar that cycles.
             progressInterval = setInterval(() => {
                 const elapsed = (Date.now() - trackStartTime) / 1000;
-                const progress = (elapsed / trackDuration) * 100;
-                
-                document.getElementById('progressBar').value = Math.min(progress, 100);
-                
-                const elapsedMin = Math.floor(elapsed / 60);
-                const elapsedSec = Math.floor(elapsed % 60);
-                const totalMin = Math.floor(trackDuration / 60);
-                const totalSec = Math.floor(trackDuration % 60);
-                
-                document.getElementById('timeDisplay').textContent = 
-                    `${elapsedMin}:${elapsedSec.toString().padStart(2, '0')} / ${totalMin}:${totalSec.toString().padStart(2, '0')}`;
-                
-                if (elapsed >= trackDuration) {
-                    stopProgressUpdate();
-                }
-            }, 100);
+                const cycle = 30; // visual loop length for the progress bar
+                document.getElementById('progressBar').value = ((elapsed % cycle) / cycle) * 100;
+                const m = Math.floor(elapsed / 60);
+                const s = Math.floor(elapsed % 60);
+                document.getElementById('timeDisplay').textContent =
+                    `${m}:${s.toString().padStart(2, '0')} / ∞`;
+            }, 200);
         }
 
         function stopProgressUpdate() {
@@ -6943,17 +6982,13 @@ Visit example.org for more info!</textarea>
         }
 
         document.getElementById('volumeControl').addEventListener('input', function() {
-            document.getElementById('volumeDisplay').textContent = this.value + '%';
-            if (currentGain) {
-                currentGain.gain.value = parseInt(this.value) / 100 * 0.3;
+            const disp = document.getElementById('volumeDisplay');
+            if (disp) disp.textContent = this.value + '%';
+            // Live volume: rescale the whole music chain. Individual note peaks are
+            // baked in per-schedule, so we adjust the master gain proportionally.
+            if (musicMaster && isPlaying) {
+                musicMaster.gain.setTargetAtTime(parseInt(this.value) / 70, audioContext.currentTime, 0.05);
             }
-        });
-
-        document.getElementById('progressBar').addEventListener('click', function(e) {
-            if (!isPlaying) return;
-            const rect = this.getBoundingClientRect();
-            const percent = (e.clientX - rect.left) / rect.width;
-            trackStartTime = Date.now() - (percent * trackDuration * 1000);
         });
 
         // ============================================
