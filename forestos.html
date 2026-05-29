@@ -1078,7 +1078,7 @@
         <div class="login-subtitle">Wolf-Powered Operating System<br>by Forest OS Community | example.org</div>
         <div class="login-box">
             <h3>Вход в систему</h3>
-            <input type="text" class="login-input" id="usernameInput" placeholder="Введите ваш никнейм" maxlength="20">
+            <input type="text" class="login-input" id="usernameInput" placeholder="Введите ваш никнейм" maxlength="20" onkeydown="if(event.key==='Enter'){event.preventDefault();login();}" autofocus>
             <button class="login-btn" onclick="login()">ВОЙТИ</button>
         </div>
     </div>
@@ -3465,9 +3465,9 @@ Visit example.org for more info!</textarea>
                 return;
             }
             
-            // Basic validation: only alphanumeric, underscore, dash
-            if (!/^[a-zA-Z0-9_-]+$/.test(username)) {
-                alert('Никнейм может содержать только буквы, цифры, дефис и подчеркивание!');
+            // Basic validation: letters (Latin + Cyrillic), digits, space, underscore, dash
+            if (!/^[a-zA-Zа-яА-ЯёЁ0-9 _-]+$/.test(username)) {
+                alert('Никнейм может содержать только буквы, цифры, пробел, дефис и подчёркивание!');
                 input.focus();
                 return;
             }
